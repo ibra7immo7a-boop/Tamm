@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة تم</title>
+<style>
+*{box-sizing:border-box;font-family:Tahoma,Arial,sans-serif}
+html,body{margin:0;padding:0;background:#f4f6f8;color:#333}
+body{font-size:13px;overflow-x:hidden}
+.app-shell{min-height:100vh;display:flex;direction:rtl}
+.sidebar{width:250px;flex:0 0 250px;background:#00a0be;color:#fff;min-height:100vh;box-shadow:-2px 0 8px #00000012;z-index:2}
+.sidebar-brand{padding:22px 18px;background:#0094b3;font-size:16px;font-weight:bold;line-height:1.8;border-bottom:1px solid #ffffff25}
+.sidebar-brand small{display:block;font-size:11px;font-weight:normal;color:#d9ffff}
+.side-nav{padding:0}.side-nav a,.side-nav .nav-heading{display:block;color:#eaffff;text-decoration:none;padding:13px 16px;border-bottom:1px solid #ffffff27;font-size:13px}
+.side-nav a:hover,.side-nav a.selected{background:#fff;color:#00a0be;font-weight:bold}
+.side-nav .nav-heading{font-weight:bold;background:#0094b3}
+.side-nav a.nav-heading{display:flex;justify-content:space-between;align-items:center}
+.inquiry-menu-arrow{font-size:16px;line-height:1;transition:transform .2s}
+.inquiry-menu-toggle[aria-expanded="true"] .inquiry-menu-arrow{transform:rotate(180deg)}
+.ownership-menu-toggle[aria-expanded="true"] .inquiry-menu-arrow{transform:rotate(180deg)}
+.inquiry-submenu{background:#fff}
+.inquiry-submenu .sub-link{padding-right:28px}
+.side-nav .sub-link{background:#fff;color:#53666a;padding-right:28px}
+.side-nav .sub-link.selected{color:#00a0be;border-right:3px solid #00a0be}
+.main-content{position:relative;isolation:isolate;flex:1;min-width:0;min-height:100vh;background:#fff;overflow:hidden}
+.main-content:before{content:"";position:absolute;z-index:-1;pointer-events:none;width:min(66vw,680px);aspect-ratio:1;top:42%;left:50%;transform:translate(-50%,-50%);border-radius:50%;opacity:.9;background:radial-gradient(circle,transparent 0 23%,#00a0be26 23.3% 23.8%,transparent 24.1% 39%,#00a0be22 39.3% 40%,transparent 40.3% 52%,#00a0be1c 52.3% 53%,transparent 53.3%)}
+.main-content:after{content:"تم";position:absolute;z-index:-1;pointer-events:none;top:38%;left:50%;transform:translate(-50%,-50%);font-size:clamp(130px,24vw,300px);font-weight:bold;color:#00a0be;opacity:.08}
+.header-steps{position:relative;background:#ffffffd9;border-bottom:1px solid #dbe5ea;padding:18px 25px;display:flex;justify-content:space-around;gap:12px;font-size:12px;flex-wrap:wrap;align-items:center}
+.step{position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:105px;color:#89979a;transition:.2s}
+.step:before{content:"";width:20px;height:20px;border:4px solid #d0d7d8;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 3px #fff}
+.step.active{color:#333;font-weight:bold}.step.active:before{border-color:#00a0be;background:#00a0be;box-shadow:inset 0 0 0 4px #fff}
+.step.done{color:#00a0be}.step.done:before{border-color:#00a0be;background:#00a0be}
+.page{display:none}.page.active{display:block}
+.container{position:relative;z-index:0;width:100%;max-width:1200px;margin:0 auto;background:transparent;border:0;border-radius:0;overflow:visible}
+.section{border-top:1px solid #e6eef2;padding:22px 5%;background:#ffffffa8}.section:first-child{border-top:0}
+.section-title{font-size:13px;font-weight:bold;margin-bottom:14px;color:#2b4a55}
+.row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px;align-items:end}
+.row.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.row:last-child{margin-bottom:0}
+label{font-size:10.5px;color:#5a7680;display:block;margin-bottom:5px;white-space:nowrap}
+input,select,textarea{width:100%;height:32px;padding:5px 8px;border:1px solid #cfdde4;border-radius:3px;font-size:11.5px;background:#fff;min-width:0}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#006c67}
+.plate-box{display:flex;gap:4px;direction:rtl;justify-content:flex-start}
+.plate-box input{height:32px;text-align:center;font-size:13px;padding:4px 0;flex:0 0 31px}
+.plate-box input:nth-child(4){margin-right:8px}
+.plate-letter{width:31px}.plate-number{width:31px}
+.footer,.buttons{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-top:1px solid #e6eef2}
+button{background:#006c67;color:#fff;border:none;padding:8px 25px;font-size:11px;border-radius:3px;cursor:pointer}button:hover{background:#00524e}.back{background:#9ca3af}.back:hover{background:#7b8187}
+.notice{background:#f8fafc;border:1px solid #dbe5ea;padding:10px;line-height:1.8;margin-bottom:16px;border-radius:3px;font-size:11px}
+textarea{height:85px;resize:vertical}
+.hidden{display:none}
+.step-badge{background:#006c67;color:#fff;padding:4px 11px;border-radius:16px;font-size:10px;display:inline-block}
+.page-title{padding:17px 20px 0;font-size:14px;color:#1f2937}
+.summary{background:#f8fafc;border:1px solid #e5e7eb;border-radius:4px;padding:10px;line-height:1.8;margin-bottom:14px}
+.contract-summary{background:#f8fafc;border:1px solid #dbe5ea;border-radius:5px;padding:18px 22px;margin:20px 5%;line-height:2}
+.contract-summary h2{margin:0 0 12px;color:#2b4a55;font-size:15px}
+.contract-details{margin:18px 5%;padding:8px 22px;background:#ffffffdf;border:1px solid #e2e8ec;border-radius:4px}
+.contract-detail-row{display:grid;grid-template-columns:minmax(150px,1fr) 2fr;gap:16px;padding:12px 4px;border-bottom:1px solid #edf1f3;align-items:center}
+.contract-detail-row:last-child{border-bottom:0}
+.contract-detail-label{color:#5a7680}
+.contract-detail-value{color:#333;font-weight:bold;min-height:22px}
+.contract-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;background:#fff0e4;border-right:5px solid #f28a32;padding:16px;margin:14px 5%;border-radius:4px}
+.contract-actions button,.upload-button{background:#00a0be;color:#fff;padding:10px 20px;font-size:12px}
+.contract-upload{margin:18px 5%;padding:16px;border:1px dashed #a9c5cb;border-radius:5px;background:#ffffffdc}
+.contract-upload input[type=file]{height:auto;padding:10px;background:#fff}
+.contract-preview,.contract-pdf-preview{display:block;width:100%;max-width:100%;height:320px;margin:12px auto 0;border:0;border-radius:4px;background:#f5f8f9}
+.contract-preview{width:auto;max-height:280px;object-fit:contain}
+.contract-file-name{margin-top:10px;padding:9px 12px;border-radius:7px;background:#eff8f8;color:#315c62;overflow-wrap:anywhere}
+.agreement{margin:16px 5%;padding:14px;background:#f8fafc;border:1px solid #dbe5ea;border-radius:5px;line-height:1.9}
+.agreement label{display:flex;align-items:flex-start;gap:8px;white-space:normal;font-size:12px}
+.agreement input{width:17px;height:17px;flex:0 0 17px;margin-top:2px}
+.history-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:20px 5%}
+.history-header h1{margin:0;font-size:17px;color:#2b4a55}
+.history-count{color:#5a7680;font-size:11px;margin-top:6px}
+.history-table-wrap{margin:0 5%;overflow-x:auto;background:#fff;border:1px solid #e2e8ec;border-radius:5px}
+.history-table{width:100%;border-collapse:collapse;min-width:680px;text-align:right}
+.history-table th,.history-table td{padding:12px 10px;border-bottom:1px solid #edf1f3;vertical-align:middle}
+.history-table th{background:#f5f9fa;color:#45616a;font-size:11px}
+.history-table td{font-size:11px}
+.history-table tr:last-child td{border-bottom:0}
+.history-table button{padding:6px 12px}
+.history-details{margin:14px 5%;padding:14px;background:#f8fafc;border:1px solid #dbe5ea;border-radius:5px;line-height:1.9}
+.history-details h2{font-size:13px;margin:0 0 8px;color:#2b4a55}
+.history-detail-row{display:grid;grid-template-columns:minmax(130px,1fr) 2fr;gap:12px;padding:7px 0;border-bottom:1px solid #e8eef0}
+.history-detail-row:last-child{border-bottom:0}
+.history-empty{text-align:center;color:#71858b;padding:32px 16px}
+.history-actions{display:flex;justify-content:flex-start;padding:16px 5%}
+.history-alert{margin:8px 0 20px;padding:12px 16px;background:#fff0e4;border-right:5px solid #f28a32;color:#75512f;line-height:1.8}
+.history-filters{margin:0 5%;padding:18px;background:#ffffffdf;border:1px solid #e2e8ec;border-radius:4px}
+.history-filter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 18px;align-items:end}
+.history-filter-grid label{font-size:12px;margin-bottom:7px}
+.history-filter-grid input,.history-filter-grid select{height:38px;font-size:12px}
+.history-filter-actions{display:flex;gap:10px;justify-content:flex-start;margin-top:18px}
+.history-clear{background:#fff;color:#53666a;border:1px solid #aebdc2}.history-clear:hover{background:#f4f7f8}
+.history-export{display:flex;justify-content:flex-end;margin:18px 5% 0}
+.history-export button{background:#25965b;padding:9px 13px}
+.history-export button:hover{background:#1b7546}
+.history-table{min-width:850px}
+.history-table th{white-space:nowrap;font-size:12px;padding:14px 10px}
+.history-table td{font-size:12px}
+.history-eye{width:34px;height:30px;padding:5px!important;display:inline-grid;place-items:center;background:#fff;color:#078d93;border:1px solid #b8dadd;border-radius:4px}
+.history-eye:hover{background:#eaf8f8;color:#006c67}
+.history-eye svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
+.vehicle-modal{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:20px;background:#1423278c}
+.vehicle-modal.visible{display:flex}
+.vehicle-dialog{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:7px;box-shadow:0 16px 50px #0003}
+.vehicle-dialog-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid #e6eef2}
+.vehicle-dialog-header h2{margin:0;color:#2b4a55;font-size:16px}
+.vehicle-dialog-close{width:34px;height:34px;padding:0;background:#f0f4f5;color:#53666a;font-size:20px}
+.vehicle-dialog-content{padding:16px 20px}
+.vehicle-dialog-content .history-detail-row{grid-template-columns:minmax(140px,1fr) 2fr}
+.vehicle-dialog-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-start;padding:14px 20px;border-top:1px solid #e6eef2}
+.vehicle-dialog-actions .print-license{background:#337ab7}
+.vehicle-dialog-actions .print-license:hover{background:#245d8d}
+.account-settings-form{padding:20px 24px}
+.account-settings-note{margin:0 0 18px;padding:12px;background:#f3f8f8;border-radius:8px;color:#536e74;line-height:1.8}
+.account-sidebar{margin:16px 12px 14px;padding:14px;background:#ffffff15;border:1px solid #ffffff28;border-radius:12px;color:#fff}
+.account-sidebar-title{font-weight:bold;margin-bottom:4px}
+.account-sidebar-identity{display:block;direction:ltr;text-align:right;color:#d5f4f3;font-size:12px;margin-bottom:12px}
+.account-sidebar-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.account-sidebar-actions button{padding:9px 8px;background:#ffffff;color:#075d62;font-size:11px}
+.account-sidebar-actions button:last-child{background:#ffffff1c;color:#fff;border:1px solid #ffffff55}
+.account-sidebar-actions button:hover{transform:none;box-shadow:none;background:#e9f8f8}
+.account-sidebar-actions button:last-child:hover{background:#ffffff30}
+.account-settings-form .auth-field{margin-bottom:16px}
+.account-settings-form .auth-field input{height:46px;border-radius:8px;font-size:14px}
+.account-settings-form .auth-field input[readonly]{background:#f4f7f7;color:#617378}
+@media(max-width:560px){.account-settings-form{padding:16px}.account-settings-form .auth-field{margin-bottom:13px}}
+.history-empty{line-height:1.8}
+@media(max-width:800px){.history-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.history-filter-grid{grid-template-columns:1fr}.history-filters{margin:0 10px;padding:12px}.history-table-wrap{margin:0 10px}.history-export,.history-header,.history-actions{margin-right:10px;margin-left:10px;padding-right:0;padding-left:0}.vehicle-dialog-content{padding:12px}.vehicle-dialog-actions{padding:12px}}
+.inquiry-page{min-height:calc(100vh - 40px);background:#fff}
+.inquiry-heading{padding:28px 5% 18px;text-align:right}
+.inquiry-breadcrumb{color:#89979a;font-size:12px;margin-bottom:10px}
+.inquiry-heading h1{margin:0;color:#273b42;font-size:21px}
+.inquiry-panel{margin:0 3%;min-height:285px;background:#ffffffec;border:1px solid #edf1f3;border-radius:4px;box-shadow:0 2px 12px #26383d0b}
+.inquiry-form{padding:30px 3% 20px}
+.inquiry-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 22px;align-items:end}
+.inquiry-field label{font-size:12px;margin-bottom:9px;color:#74858a}
+.inquiry-field input,.inquiry-field select{height:40px;font-size:13px}
+.inquiry-plate{display:flex;gap:5px;direction:rtl;justify-content:flex-start}
+.inquiry-plate input{height:40px;flex:0 0 38px;text-align:center;padding:4px}
+.inquiry-plate input:nth-child(4){margin-right:12px}
+.inquiry-base-number{max-width:100%}
+.inquiry-actions{display:flex;justify-content:flex-start;gap:12px;padding:16px 3%;border-top:1px solid #e6eef2}
+.inquiry-search{background:#fff;color:#078d93;border:1px solid #83c2c4;min-width:115px}
+.inquiry-search:hover{background:#effafa}
+.inquiry-reset{background:#fff;color:#53666a;border:1px solid #9ba7ab;min-width:115px}
+.inquiry-reset:hover{background:#f5f7f8}
+.inquiry-result{margin:0 3% 18px;padding:14px 16px;border:1px solid #dbe5ea;background:#f8fafc;color:#5a7680;line-height:1.8}
+.inquiry-result.error{border-color:#f0c8c2;background:#fff6f4;color:#a4493b}
+.inquiry-result.success{border-color:#bde0d0;background:#f2fbf6;color:#28734c}
+@media(max-width:800px){.inquiry-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 14px}.inquiry-heading{padding:20px 14px}.inquiry-panel{margin:0 10px}}
+@media(max-width:560px){.inquiry-grid{grid-template-columns:1fr}.inquiry-form{padding:18px 14px}.inquiry-plate input{flex-basis:34px}.inquiry-plate input:nth-child(4){margin-right:8px}.inquiry-actions{padding:14px;flex-wrap:wrap}.inquiry-heading h1{font-size:18px}}
+.loading-overlay{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:#ffffffd9;backdrop-filter:blur(2px)}
+.loading-overlay.visible{display:flex}
+.loading-card{text-align:center;color:#2b4a55;font-weight:bold}
+.loading-mark{width:76px;height:76px;margin:0 auto 14px;border:5px solid #d8eeee;border-top-color:#079da3;border-radius:50%;display:grid;place-items:center;animation:loading-spin .9s linear infinite}
+.loading-mark span{font-size:18px;color:#079da3;animation:loading-spin .9s linear infinite reverse}
+.loading-message{font-size:13px}
+@keyframes loading-spin{to{transform:rotate(360deg)}}
+
+/* واجهة محسّنة ومتجاوبة */
+:root{--tam-teal:#00a0be;--tam-deep:#0094b3;--tam-ink:#18343a;--tam-muted:#6b8085;--tam-line:#e3ecee;--tam-surface:#fff;--tam-bg:#f3f7f8;--tam-shadow:0 12px 34px #193b4210}
+html{scroll-behavior:smooth}
+body{background:var(--tam-bg);color:var(--tam-ink);font-size:14px}
+.app-shell{min-height:100vh;display:block}
+.sidebar{position:fixed;inset:0 0 0 auto;width:min(300px,86vw);min-height:100vh;height:100dvh;overflow-y:auto;transform:translateX(105%);transition:transform .28s ease;z-index:52;box-shadow:-16px 0 45px #102f3526;background:#239bb0}
+.sidebar.sidebar-visible{transform:translateX(0)}
+.sidebar-brand{min-height:92px;padding:14px 18px;background:#fff;color:#159bb4;display:flex;align-items:center;justify-content:flex-start;gap:9px;border-bottom:1px solid #dfe9ed;transition:background-color .2s ease,box-shadow .2s ease}
+.sidebar-brand:hover{background:#effbfc;box-shadow:inset 0 -3px 0 #00a0be}
+.sidebar-brand-name{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:7px;align-items:center;line-height:1}
+.sidebar-brand-ar{grid-column:1 / -1;font-size:20px;font-weight:700;letter-spacing:.3px}
+.sidebar-brand-en{font-size:19px;font-weight:500;direction:ltr}
+.sidebar-brand-business{font-size:12px;color:#66767b;font-weight:500;align-self:end;padding-bottom:2px}
+.sidebar-brand-symbol{height:42px;display:flex;align-items:flex-end;gap:3px;direction:ltr;transition:transform .2s ease}
+.sidebar-brand:hover .sidebar-brand-symbol{transform:translateY(-3px)}
+.sidebar-brand-symbol i{display:block;width:4px;background:#2879b9;border-radius:1px 1px 0 0;transition:background-color .2s ease,transform .2s ease}
+.sidebar-brand:hover .sidebar-brand-symbol i{background:#00a0be;transform:scaleY(1.06);transform-origin:bottom}
+.sidebar-brand-symbol i:nth-child(1){height:24px}
+.sidebar-brand-symbol i:nth-child(2){height:30px}
+.sidebar-brand-symbol i:nth-child(3){height:36px}
+.sidebar-brand-symbol i:nth-child(4){height:42px}
+.sidebar-brand-symbol i:nth-child(5){height:34px}
+.side-nav{padding:12px}
+.side-nav a,.side-nav .nav-heading{padding:13px 14px;margin:3px 0;border:0;border-radius:10px;font-size:13px;color:#efffff;transition:background .18s,color .18s,transform .18s}
+.side-nav a:hover{background:#ffffff20;color:#fff;transform:translateX(-2px)}
+.side-nav a.selected{background:#fff;color:var(--tam-deep);box-shadow:0 4px 14px #064d5026}
+.side-nav .nav-heading{background:#ffffff14;color:#fff}
+.side-nav a.nav-heading{display:flex}
+.side-nav .sub-link{padding-right:26px;background:transparent;color:#d9f2f1}
+.side-nav .sub-link.selected{background:#ffffff;color:var(--tam-deep);border:0}
+.inquiry-submenu{background:transparent;padding:3px 0}
+.main-content{min-height:100vh;overflow:visible;background:var(--tam-bg)}
+.main-content:before{position:fixed;top:45%;opacity:.42}
+.main-content:after{position:fixed;top:45%;opacity:.045}
+.app-topbar{position:sticky;top:0;z-index:12;min-height:76px;padding:12px clamp(16px,4vw,48px);display:flex;align-items:center;gap:16px;background:#ffffffed;border-bottom:1px solid var(--tam-line);backdrop-filter:blur(14px)}
+.topbar-back{flex:0 0 auto;padding:10px 14px;background:#eaf5f5;color:var(--tam-deep);border:1px solid #d9ebec;border-radius:10px}
+.topbar-back:hover{background:#d9eeee}
+.menu-toggle{width:44px;height:44px;flex:0 0 44px;padding:10px;display:grid;align-content:center;gap:5px;background:#eaf5f5;color:var(--tam-deep);border:1px solid #d9ebec;border-radius:12px}
+.menu-toggle:hover{background:#d9eeee}
+.menu-toggle:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #65c4c7;outline-offset:3px}
+.menu-toggle span{height:2px;width:21px;margin:auto;background:currentColor;border-radius:5px;transition:transform .2s,opacity .2s}
+.topbar-title{min-width:0;flex:1}
+.topbar-title strong{display:block;color:var(--tam-ink);font-size:16px}
+.topbar-title span{display:block;margin-top:4px;color:var(--tam-muted);font-size:11px}
+.topbar-status{display:flex;align-items:center;gap:8px;color:#28734c;background:#effaf3;border:1px solid #d5efdf;border-radius:999px;padding:8px 12px;font-size:11px;white-space:nowrap}
+.topbar-status:before{content:"";width:7px;height:7px;border-radius:50%;background:#35a66b;box-shadow:0 0 0 4px #35a66b1c}
+.sidebar-backdrop{position:fixed;inset:0;z-index:50;background:#0b242a78;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-backdrop.visible{opacity:1;visibility:visible}
+.header-steps{position:relative;z-index:1;justify-content:flex-start;gap:clamp(14px,4vw,52px);padding:17px clamp(16px,5vw,58px);background:#fff;border-bottom:1px solid var(--tam-line);overflow-x:auto;flex-wrap:nowrap}
+.step{min-width:max-content;flex-direction:row;gap:9px;font-size:12px}
+.step:before{width:22px;height:22px;flex:0 0 22px;border-width:3px}
+.page{position:relative;z-index:1;min-height:calc(100vh - 132px);padding:22px clamp(12px,3vw,34px) 38px}
+.container{max-width:1120px;margin:0 auto;background:var(--tam-surface);border:1px solid var(--tam-line);border-radius:16px;box-shadow:var(--tam-shadow);overflow:hidden}
+.section{padding:24px clamp(16px,3vw,34px);background:#fff;border-top:1px solid #edf2f3}
+.section-title{font-size:14px;color:#264c53;margin-bottom:17px}
+.row{gap:18px;margin-bottom:18px}
+label{font-size:12px;color:#536e74;margin-bottom:7px}
+input,select,textarea{height:42px;padding:9px 12px;border:1px solid #d6e2e5;border-radius:9px;font-size:13px;background:#fff;transition:border-color .18s,box-shadow .18s}
+input:focus,select:focus,textarea:focus{border-color:var(--tam-teal);box-shadow:0 0 0 3px #078d931b;outline:none}
+input[type=checkbox]{accent-color:var(--tam-teal)}
+button{padding:11px 22px;border-radius:9px;font-size:13px;font-weight:700;transition:transform .16s,background .16s,box-shadow .16s}
+button:hover{transform:translateY(-1px);box-shadow:0 6px 14px #075d6224}
+.footer,.buttons{padding:18px clamp(16px,3vw,34px);background:#fbfdfd}
+.page-title{padding:4px 0 20px;font-size:18px;color:var(--tam-ink)}
+.step-badge{margin-right:8px;background:#e8f5f5;color:var(--tam-deep);font-weight:700}
+.notice,.summary{border-radius:10px;font-size:13px}
+.contract-details,.contract-upload,.agreement,.history-filters,.history-details,.history-table-wrap,.inquiry-panel{border-radius:12px;box-shadow:var(--tam-shadow)}
+.history-header{padding:25px 4%}
+.history-header h1,.inquiry-heading h1{font-size:22px;color:var(--tam-ink)}
+.history-alert{margin:0 4% 18px;border-radius:10px}
+.history-filters{margin:0 4%;padding:22px;background:#fff}
+.history-export{margin:18px 4%}
+.history-table-wrap{margin:0 4%}
+.history-actions{padding:20px 4%}
+.inquiry-heading{padding:28px 4% 18px}
+.inquiry-panel{margin:0 4%;background:#fff}
+.inquiry-form{padding:30px 4%}
+.inquiry-actions{padding:18px 4%}
+.inquiry-result{margin:0 4% 20px;border-radius:9px}
+.contract-actions{border-radius:10px}
+.vehicle-dialog{border-radius:16px}
+.hidden{display:none!important}
+@media(min-width:801px){
+  .app-shell{display:flex;direction:rtl;align-items:stretch}
+  .sidebar{position:sticky;inset:auto;top:0;width:270px;flex:0 0 270px;height:100vh;min-height:100vh;transform:none;box-shadow:-4px 0 22px #102f3514}
+  .main-content{flex:1;min-width:0}
+  .menu-toggle,.sidebar-backdrop{display:none!important}
+}
+@media(max-width:800px){
+  .app-shell{display:block}
+  .sidebar{width:min(300px,86vw);flex-basis:auto;min-height:100vh}
+  .menu-toggle{display:grid}
+  .side-nav a,.side-nav .nav-heading{padding:13px 14px;font-size:13px}
+  .header-steps{gap:20px;padding:14px 16px}
+  .step{min-width:max-content;font-size:11px}
+  .page{padding:16px 12px 28px}
+  .container{width:100%;margin:0 auto}
+  .section{padding:19px 16px}
+  .row,.row.four{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  label{font-size:11px;white-space:normal}
+  input,select{height:40px;font-size:12px}
+  .history-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .inquiry-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 14px}
+  .inquiry-heading{padding:22px 16px 16px}
+  .inquiry-panel{margin:0 12px}
+}
+@media(max-width:560px){
+  .app-topbar{min-height:66px;padding:10px 12px;gap:8px}
+  .topbar-back{padding:9px 10px;font-size:11px}
+  .menu-toggle{width:42px;height:42px;flex-basis:42px}
+  .topbar-title strong{font-size:14px}
+  .topbar-title span{font-size:10px}
+  .topbar-status{padding:7px 9px;font-size:0;gap:0}
+  .topbar-status:before{width:8px;height:8px}
+  .header-steps{gap:15px;padding:12px;scrollbar-width:thin}
+  .step{font-size:10px;gap:6px}
+  .step:before{width:19px;height:19px;flex-basis:19px}
+  .page{min-height:calc(100vh - 116px);padding:12px 9px 24px}
+  .section{padding:17px 13px}
+  .section-title{font-size:13px}
+  .row,.row.four{grid-template-columns:1fr;gap:12px;margin-bottom:13px}
+  .row>div:empty{display:none}
+  .plate-box{gap:4px}
+  .plate-box input{height:40px;flex:0 1 38px;width:38px;font-size:14px}
+  .plate-box input:nth-child(4){margin-right:7px}
+  .buyer-license-box{gap:5px;max-width:100%}
+  .buyer-license-box input{flex:0 1 38px;width:38px;min-width:0}
+  .buyer-license-box input:nth-child(4){margin-right:0}
+  .footer,.buttons{gap:10px;padding:14px;flex-wrap:wrap}
+  .footer button,.buttons button{min-width:110px}
+  .page-title{font-size:16px}
+  .contract-detail-row,.history-detail-row{grid-template-columns:1fr;gap:5px}
+  .contract-summary,.contract-details,.contract-upload,.agreement{margin-right:12px;margin-left:12px;padding:14px}
+  .contract-actions{margin-right:12px;margin-left:12px;padding:12px}
+  .history-header{padding:18px 12px}
+  .history-header h1,.inquiry-heading h1{font-size:18px}
+  .history-filters{margin:0 10px;padding:14px}
+  .history-filter-grid,.inquiry-grid{grid-template-columns:1fr;gap:13px}
+  .history-table-wrap{margin:0 10px}
+  .history-export,.history-actions{margin:14px 10px;padding:0}
+  .history-export{justify-content:stretch}
+  .history-export button{width:100%}
+  .history-alert{margin:0 10px 14px;padding:11px}
+  .inquiry-heading{padding:18px 12px}
+  .inquiry-panel{margin:0 9px}
+  .inquiry-form{padding:18px 13px}
+  .inquiry-plate{gap:4px}
+  .inquiry-plate input{height:40px;flex:0 1 36px;min-width:0}
+  .inquiry-plate input:nth-child(4){margin-right:6px}
+  .inquiry-actions{padding:13px;flex-wrap:wrap}
+  .inquiry-actions button{flex:1 1 135px}
+  .vehicle-dialog{max-height:94vh}
+  .vehicle-dialog-header,.vehicle-dialog-content,.vehicle-dialog-actions{padding:13px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+.code-boxes{display:flex;gap:8px;direction:rtl;margin-top:10px}
+.code-boxes input{width:42px;flex:0 0 42px;height:38px;text-align:center;font-size:17px;font-weight:bold}
+@media(max-width:420px){.code-boxes{gap:6px}.code-boxes input{width:38px;flex-basis:38px;height:34px;font-size:15px}}
+@media(max-width:800px){
+  .sidebar{width:190px;flex-basis:190px}
+  .side-nav a,.side-nav .nav-heading{padding:11px 10px;font-size:11px}
+  .side-nav .sub-link{padding-right:20px}
+  .header-steps{gap:14px;padding:9px 12px;font-size:10px}
+  .container{width:calc(100% - 10px);margin:6px auto}
+  .section{padding:14px 10px}
+  .section-title{font-size:12px;margin-bottom:11px}
+  .row{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:11px}
+  .row.four{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  label{font-size:9px;margin-bottom:4px}
+  input,select{height:29px;padding:4px 6px;font-size:10px}
+  .plate-box{gap:3px}
+  .plate-box input{height:29px;flex-basis:28px;font-size:11px}
+  .plate-box input:nth-child(4){margin-right:7px}
+  .plate-letter,.plate-number{width:28px}
+  .footer,.buttons{padding:10px}
+  button{padding:7px 20px;font-size:10px}
+  .page-title{padding:14px 10px 0;font-size:13px}
+  .notice{font-size:10px;padding:8px;margin-bottom:12px}
+  textarea{height:70px}
+}
+@media(max-width:420px){
+  .row,.row.four{gap:5px}
+  label{font-size:8px}
+  input,select{font-size:9px;padding-left:4px;padding-right:4px}
+  .plate-box input{flex-basis:23px;width:23px}
+  .plate-box input:nth-child(4){margin-right:5px}
+  .plate-letter,.plate-number{width:23px}
+}
+@media(max-width:560px){
+  .app-shell{display:block}
+  .sidebar{width:100%;min-height:0}
+  .sidebar-brand{padding:8px 12px;font-size:14px;line-height:1.5}
+  .sidebar-brand small{display:inline;margin-right:8px;font-size:10px}
+  .side-nav{display:flex;overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
+  .side-nav a,.side-nav .nav-heading{padding:10px;font-size:10px;border-left:1px solid #ffffff27;border-bottom:0}
+  .side-nav .sub-link{padding-right:10px}
+  .main-content{min-height:calc(100vh - 90px)}
+  .header-steps{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start}
+  .step{min-width:78px;font-size:9px}
+  .row,.row.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .container{width:100%;margin:0}
+}
+@media(min-width:801px){
+  .app-shell{display:flex;direction:rtl;align-items:stretch}
+  .sidebar{position:sticky;inset:auto;top:0;width:270px;flex:0 0 270px;height:100vh;min-height:100vh;transform:none!important}
+  .side-nav{display:block;overflow:visible;white-space:normal}
+  .main-content{flex:1;min-width:0}
+  .menu-toggle,.sidebar-backdrop{display:none!important}
+}
+@media(max-width:800px){
+  .sidebar{position:fixed;inset:0 0 0 auto;width:min(300px,86vw);height:100dvh;min-height:100vh;flex-basis:auto}
+  .sidebar.sidebar-visible{transform:translateX(0)}
+  .side-nav{display:block;overflow:visible;white-space:normal}
+  .side-nav a,.side-nav .nav-heading{font-size:13px;padding:13px 14px;border:0}
+  .side-nav a:hover{transform:none}
+  .side-nav a{touch-action:manipulation}
+  .side-nav .sub-link{padding-right:26px}
+  .menu-toggle{display:grid}
+}
+body.home-view .app-shell,body.login-view .app-shell,body.signup-view .app-shell,body.reset-view .app-shell,body.mobile-view .app-shell{display:none}
+body:not(.home-view) #landingPage{display:none}
+.auth-page{display:none;min-height:100vh;position:relative;overflow:hidden;background:#fff;direction:rtl}
+body.login-view #loginPage,body.signup-view #signupPage,body.reset-view #resetPasswordPage,body.mobile-view #changeMobilePage{display:grid}
+.auth-topline{position:absolute;inset:0 0 auto;height:18px;background:linear-gradient(90deg,#00a0be 0%,#1eb4d0 100%);z-index:2}
+.auth-layout{min-height:100vh;display:grid;grid-template-columns:minmax(300px,1fr) minmax(430px,1fr);align-items:center;max-width:1320px;margin:auto;padding:48px clamp(20px,5vw,70px)}
+.auth-visual{height:min(76vh,620px);min-height:380px;position:relative;overflow:hidden;background:#eef7f9;clip-path:polygon(0 0,100% 0,100% 80%,50% 100%,0 80%)}
+.auth-visual img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.8)}
+.auth-card{width:min(100%,560px);justify-self:center;padding:32px clamp(22px,4vw,58px);background:#ffffffed;position:relative;z-index:1}
+.auth-card h1{font-size:34px;text-align:center;color:#172b31;margin:0 0 12px}
+.auth-subtitle{text-align:center;color:#69777a;font-size:20px;margin:0 0 28px}
+.auth-field{margin:0 0 23px}
+.auth-field label{font-size:16px;color:#687579;margin-bottom:8px}
+.auth-field input{height:58px;border-radius:0;font-size:16px;padding:12px;border:2px solid #dedede}
+.auth-field input:focus{border-color:#0cb3bc;box-shadow:none}
+.auth-remember{display:flex;align-items:center;gap:9px;color:#5e6a6d;font-size:15px;margin:2px 0 25px}
+.auth-remember input{width:20px;height:20px;margin:0}
+.auth-submit{width:100%;height:58px;background:linear-gradient(90deg,#00a0be 0%,#1aaed0 100%);border-radius:0;font-size:17px;box-shadow:0 8px 18px rgba(0,160,190,.2)}
+.auth-submit:hover{background:linear-gradient(90deg,#0098b5 0%,#17a8c8 100%)}
+.auth-actions{text-align:center;color:#637276;line-height:2.2;margin-top:16px;font-size:14px}
+.auth-link{padding:0 4px;background:none;color:#078d93;font-weight:bold;text-decoration:underline}
+.auth-link:hover{background:#effafa;box-shadow:none;transform:none}
+.auth-demo-link{display:inline-block;margin-top:8px;font-size:13px}
+.auth-back{position:absolute;top:36px;right:clamp(20px,5vw,70px);z-index:3;background:#fff;color:#087c83;border:1px solid #cde6e7}
+.auth-note{text-align:center;color:#819094;font-size:11px;margin-top:14px}
+@media(max-width:760px){
+  .auth-layout{grid-template-columns:1fr;min-height:100vh;padding:65px 16px 24px}
+  .auth-visual{position:absolute;inset:18px 0 auto;height:36vh;min-height:210px;opacity:.22;clip-path:none}
+  .auth-card{width:min(100%,520px);padding:28px 20px;background:#ffffffed;border-radius:12px;box-shadow:0 8px 32px #193b4218}
+  .auth-card h1{font-size:27px}.auth-subtitle{font-size:16px}
+  .auth-field input{height:50px}.auth-submit{height:52px}
+  .auth-back{top:28px;right:16px}
+}
+.landing-page{min-height:100vh;background:#fff;color:#39474b;direction:rtl}
+.landing-brandline{height:76px;padding:10px clamp(18px,4vw,52px);display:flex;align-items:center;justify-content:space-between;background:#f7f9fa;border-bottom:1px solid #dfe9ed;color:#00a0be}
+.landing-brand{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-inline-start:auto;font-weight:700;line-height:1}
+.landing-brand .brand-arabic{font-size:18px;color:#00a0be;display:block;transform:translateY(-1px)}
+.landing-brand .brand-english{font-size:18px;color:#00a0be;letter-spacing:0.5px;display:block}
+.landing-nav{min-height:96px;padding:14px clamp(18px,5vw,70px);display:flex;align-items:center;justify-content:space-between;gap:24px;background:linear-gradient(100deg,#00a0be,#1ab7d3);color:#fff;box-shadow:0 3px 12px #064d5018}
+.landing-logo{display:flex;align-items:center;gap:12px;color:#fff;font-size:18px;font-weight:bold;white-space:nowrap}
+.landing-icon-button{width:54px;height:54px;flex:0 0 54px;padding:0;border:2px solid #fff;border-radius:50%;overflow:hidden;background:#fff;box-shadow:none}
+.landing-icon-button:hover{transform:scale(1.06);box-shadow:0 4px 14px #003b3f45}
+.landing-logo-mark{display:block;width:100%;height:100%;object-fit:cover;object-position:center 18%;border-radius:50%}
+.profile-image-modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:24px;background:#071a1dcc;backdrop-filter:blur(4px)}
+.profile-image-modal.visible{display:flex}
+.profile-image-dialog{position:relative;max-width:min(90vw,720px);max-height:90vh;padding:10px;background:#fff;border-radius:14px;box-shadow:0 20px 70px #0006}
+.profile-image-dialog img{display:block;max-width:100%;max-height:calc(90vh - 20px);object-fit:contain;border-radius:8px}
+.profile-image-close{position:absolute;top:14px;left:14px;width:42px;height:42px;padding:0;border:1px solid #ffffff75;border-radius:50%;background:#10272bd9;color:#fff;font-size:27px;line-height:1}
+.profile-image-close:hover{background:#079da3}
+.landing-links{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.landing-links button{padding:8px 14px;background:transparent;border-radius:0;color:#fff;font-size:14px;font-weight:400;border-left:1px solid #ffffff55}
+.landing-links button:last-child{border-left:0}
+.landing-links button:hover{background:#ffffff19;box-shadow:none;transform:none}
+.landing-hero{min-height:480px;max-width:1320px;margin:0 auto;padding:32px clamp(20px,5vw,70px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:38px;overflow:hidden}
+.landing-visual{position:relative;min-height:405px;display:grid;place-items:center}
+.landing-visual:before,.landing-visual:after{content:"";position:absolute;width:310px;height:310px;border:2px solid #0aaeb455;transform:rotate(30deg);pointer-events:none}
+.landing-visual:before{left:7%;top:12%;border-radius:4px}
+.landing-visual:after{left:19%;top:20%;border-color:#825a8050}
+.landing-photo{position:relative;z-index:1;width:min(82%,420px);height:340px;object-fit:cover;clip-path:polygon(50% 0,100% 25%,100% 78%,50% 100%,0 78%,0 25%);filter:saturate(.8);box-shadow:0 16px 36px #12343a25}
+.landing-copy{max-width:570px;justify-self:end;font-size:clamp(19px,2vw,24px);line-height:1.95;color:#5b5b5b;text-align:right}
+.landing-hero-title{font-size:clamp(24px,3vw,46px);font-weight:700;color:#0a7a8e;line-height:1.3;margin-bottom:6px}
+.landing-hero-subtitle{font-size:clamp(18px,2vw,30px);font-weight:500;color:#0d8aa5;line-height:1.5;margin-bottom:16px}
+.landing-copy p{margin:0 0 22px}
+.landing-cta{padding:13px 30px;background:#00a0be;font-size:15px}
+.landing-cta:hover{background:#0094b3}
+.landing-footer{min-height:66px;border-top:2px solid #477f91;display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;padding:14px 22px;color:#507789;background:#fff;font-size:12px}
+.landing-footer a{color:#33788b;text-decoration:none;font-weight:bold}
+.landing-page[dir="ltr"] .landing-brand{flex-direction:row-reverse;margin-inline-start:0;margin-inline-end:auto}
+.landing-page[dir="ltr"] .landing-nav,.landing-page[dir="ltr"] .landing-logo{direction:ltr}
+.landing-page[dir="ltr"] .landing-links{direction:ltr}
+.landing-page[dir="ltr"] .landing-links button{border-left:0;border-right:1px solid #ffffff55}
+.landing-page[dir="ltr"] .landing-links button:last-child{border-right:0}
+.landing-page[dir="ltr"] .landing-hero{direction:rtl}
+.landing-page[dir="ltr"] .landing-copy{direction:ltr;text-align:left;justify-self:start}
+.landing-page[dir="ltr"] .landing-footer{direction:ltr}
+@media(max-width:760px){
+  .landing-brandline{height:48px}
+  .landing-nav{align-items:flex-start;flex-direction:column;gap:12px;padding:16px 20px}
+  .landing-links{width:100%;justify-content:flex-start}
+  .landing-links button{padding:8px 9px;font-size:12px}
+  .landing-hero{grid-template-columns:1fr;gap:8px;padding:20px 18px 28px}
+  .landing-visual{min-height:290px;grid-row:2}
+  .landing-photo{height:270px}
+  .landing-copy{justify-self:stretch;font-size:18px}
+  .landing-footer{gap:10px 16px;font-size:10px}
+}
+</style>
+</head>
+<body class="home-view">
+<section class="auth-page" id="loginPage" aria-labelledby="loginTitle">
+  <div class="auth-topline"></div>
+  <button class="auth-back" type="button" onclick="showLandingPage()">العودة للرئيسية</button>
+  <div class="auth-layout">
+    <div class="auth-visual" aria-hidden="true"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt=""></div>
+    <form class="auth-card" onsubmit="submitLogin(event)">
+      <h1 id="loginTitle">أهلاً بك مجدداً</h1>
+      <p class="auth-subtitle">فضلاً قم بتسجيل الدخول لحسابك</p>
+      <div class="auth-field"><label for="loginIdentity">رقم الهوية</label><input id="loginIdentity" name="identity" type="text" inputmode="numeric" autocomplete="username" maxlength="10" pattern="[0-9]{10}" title="أدخل رقم هوية مكوّناً من 10 أرقام" oninput="normalizeIdentity(this)" required autofocus></div>
+      <div class="auth-field"><label for="loginPassword">كلمة المرور</label><input id="loginPassword" name="password" type="password" autocomplete="current-password" required></div>
+      <label class="auth-remember"><input type="checkbox" id="rememberLogin"> تذكرني</label>
+      <button class="auth-submit" type="submit">دخول</button>
+    </form>
+  </div>
+</section>
+<section class="auth-page" id="signupPage" aria-labelledby="signupTitle">
+  <div class="auth-topline"></div>
+  <button class="auth-back" type="button" onclick="showLandingPage()">العودة للرئيسية</button>
+  <div class="auth-layout">
+    <div class="auth-visual" aria-hidden="true"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt=""></div>
+    <form class="auth-card" onsubmit="submitSignup(event)">
+      <h1 id="signupTitle">إنشاء حساب</h1>
+      <p class="auth-subtitle">أدخل بياناتك لإنشاء حساب جديد</p>
+      <div class="auth-field"><label for="signupIdentity">رقم الهوية</label><input id="signupIdentity" name="identity" type="text" inputmode="numeric" autocomplete="username" maxlength="10" pattern="[0-9]{10}" title="أدخل رقم هوية مكوّناً من 10 أرقام" oninput="normalizeIdentity(this)" required></div>
+      <div class="auth-field"><label for="signupPassword">كلمة المرور</label><input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="8" required></div>
+      <div class="auth-field"><label for="signupConfirmPassword">تأكيد كلمة المرور</label><input id="signupConfirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required></div>
+      <button class="auth-submit" type="submit">إنشاء الحساب</button>
+      <div class="auth-actions">لديك حساب بالفعل؟ <button class="auth-link" type="button" onclick="showLoginPage()">تسجيل الدخول</button></div>
+      <div class="auth-note">واجهة تجريبية — يُحفظ الحساب على هذا المتصفح فقط، ولا ترسل بياناتك إلى أي جهة.</div>
+    </form>
+  </div>
+</section>
+<section class="auth-page" id="resetPasswordPage" aria-labelledby="resetPasswordTitle">
+  <div class="auth-topline"></div>
+  <button class="auth-back" type="button" onclick="showLandingPage()">العودة للرئيسية</button>
+  <div class="auth-layout">
+    <div class="auth-visual" aria-hidden="true"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt=""></div>
+    <form class="auth-card" onsubmit="submitPasswordReset(event)">
+      <h1 id="resetPasswordTitle">إعادة تعيين كلمة المرور</h1>
+      <p class="auth-subtitle">أدخل بيانات الحساب وكلمة المرور الجديدة</p>
+      <div class="auth-field"><label for="resetIdentity">رقم الهوية</label><input id="resetIdentity" type="text" inputmode="numeric" autocomplete="username" required></div>
+      <div class="auth-field"><label for="resetMobile">رقم الجوال المسجل</label><input id="resetMobile" type="tel" inputmode="numeric" pattern="5[0-9]{8}" title="أدخل 9 أرقام تبدأ بالرقم 5" oninput="normalizeMobile(this)" required></div>
+      <div class="auth-field"><label for="resetNewPassword">كلمة المرور الجديدة</label><input id="resetNewPassword" type="password" autocomplete="new-password" minlength="6" required></div>
+      <div class="auth-field"><label for="resetConfirmPassword">تأكيد كلمة المرور الجديدة</label><input id="resetConfirmPassword" type="password" autocomplete="new-password" minlength="6" required></div>
+      <button class="auth-submit" type="submit">تعيين كلمة المرور</button>
+      <div class="auth-actions"><button class="auth-link" type="button" onclick="showLoginPage()">العودة إلى تسجيل الدخول</button></div>
+      <div class="auth-note">واجهة تجريبية — لن تُرسل البيانات ولن تتغير كلمة مرور حقيقية.</div>
+    </form>
+  </div>
+</section>
+<section class="auth-page" id="changeMobilePage" aria-labelledby="changeMobileTitle">
+  <div class="auth-topline"></div>
+  <button class="auth-back" type="button" onclick="showLandingPage()">العودة للرئيسية</button>
+  <div class="auth-layout">
+    <div class="auth-visual" aria-hidden="true"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt=""></div>
+    <form class="auth-card" onsubmit="submitMobileChange(event)">
+      <h1 id="changeMobileTitle">تغيير رقم جوال المستخدم</h1>
+      <p class="auth-subtitle">أدخل بيانات الحساب ورقم الجوال الجديد</p>
+      <div class="auth-field"><label for="mobileIdentity">رقم الهوية</label><input id="mobileIdentity" type="text" inputmode="numeric" autocomplete="username" required></div>
+      <div class="auth-field"><label for="currentMobile">رقم الجوال الحالي</label><input id="currentMobile" type="tel" inputmode="numeric" pattern="5[0-9]{8}" title="أدخل 9 أرقام تبدأ بالرقم 5" oninput="normalizeMobile(this)" required></div>
+      <div class="auth-field"><label for="newMobile">رقم الجوال الجديد</label><input id="newMobile" type="tel" inputmode="numeric" pattern="5[0-9]{8}" title="أدخل 9 أرقام تبدأ بالرقم 5" oninput="normalizeMobile(this)" required></div>
+      <div class="auth-field"><label for="confirmMobile">تأكيد رقم الجوال الجديد</label><input id="confirmMobile" type="tel" inputmode="numeric" pattern="5[0-9]{8}" title="أدخل 9 أرقام تبدأ بالرقم 5" oninput="normalizeMobile(this)" required></div>
+      <button class="auth-submit" type="submit">تحديث رقم الجوال</button>
+      <div class="auth-actions"><button class="auth-link" type="button" onclick="showLoginPage()">العودة إلى تسجيل الدخول</button></div>
+      <div class="auth-note">واجهة تجريبية — لن تُرسل البيانات ولن يتغير رقم جوال حقيقي.</div>
+    </form>
+  </div>
+</section>
+<section class="landing-page" id="landingPage" lang="ar" dir="rtl" aria-label="الصفحة الرئيسية لمنصة تم">
+  <div class="landing-brandline">
+    <div class="landing-brand" aria-label="منصة تم">
+      <span class="brand-arabic">تم</span>
+      <span class="brand-english">Tamm</span>
+    </div>
+  </div>
+  <header class="landing-nav">
+    <div class="landing-logo"><button class="landing-icon-button" type="button" aria-label="عرض الصورة بالحجم الكامل" aria-haspopup="dialog" onclick="showProfileImage()"><img class="landing-logo-mark" src="phot.jpg" alt=""></button><span><span data-i18n="tamm">تم</span><br><small data-i18n="business">أعمال</small></span></div>
+    <nav class="landing-links" aria-label="روابط الموقع">
+      <button type="button" data-i18n="changeMobile" onclick="showChangeMobilePage()">تغيير رقم جوال المستخدم</button>
+      <button type="button" data-i18n="resetPassword" onclick="showPasswordResetPage()">إعادة تعيين كلمة المرور</button>
+      <button type="button" data-i18n="signIn" onclick="showLoginPage()">تسجيل الدخول</button>
+      <button type="button" lang="en" id="languageToggle" onclick="toggleLandingLanguage()">English</button>
+    </nav>
+  </header>
+  <main class="landing-hero">
+    <div class="landing-visual" aria-hidden="true"><img class="landing-photo" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt=""></div>
+    <div class="landing-copy">
+      <div class="landing-hero-title" data-i18n="heroTitle">منصة تم</div>
+      <div class="landing-hero-subtitle" data-i18n="heroSubtitle">خدمات المركبات الإلكترونية</div>
+      <p data-i18n="heroDescription">تساهم بوابة تم في تنظيم قطاع النقل والمركبات في المملكة العربية السعودية من خلال إتاحة خدمات إلكترونية متطورة لتمكين العملاء من إجراء معاملاتهم المرورية الخاصة بالمركبات والمرتبطة بالإدارة العامة للمرور.</p>
+      <button type="button" class="landing-cta" data-i18n="signUp" onclick="showSignupPage()">سجل الآن</button>
+    </div>
+  </main>
+  <footer class="landing-footer"><span>2025.1.1-32bf394</span><span>|</span><a href="#" data-i18n="forms" onclick="enterTransaction()">نماذج تم</a><span>|</span><a href="#" data-i18n="privacy" onclick="enterTransaction()">إشعار خصوصية البيانات</a><span>|</span><a href="#" data-i18n="faq" onclick="enterTransaction()">الأسئلة الشائعة</a><span>|</span><a href="#" data-i18n="userGuide" onclick="enterTransaction()">دليل الاستخدام</a><span>|</span><strong data-i18n="support">الدعم الفني　920000356</strong></footer>
+  <div class="profile-image-modal" id="profileImageModal" role="dialog" aria-modal="true" aria-label="الصورة بالحجم الكامل" aria-hidden="true" onclick="closeProfileImage(event)">
+    <div class="profile-image-dialog"><button class="profile-image-close" type="button" aria-label="إغلاق الصورة" onclick="closeProfileImage()">×</button><img src="phot.jpg" alt="الصورة المكبرة"></div>
+  </div>
+</section>
+<div class="app-shell">
+<aside class="sidebar" id="siteSidebar" aria-label="القائمة الجانبية" aria-hidden="true">
+  <div class="sidebar-brand" aria-label="تم Tamm أعمال">
+    <span class="sidebar-brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sidebar-brand-name"><span class="sidebar-brand-ar">تم</span><span class="sidebar-brand-en">Tamm</span><span class="sidebar-brand-business">أعمال</span></span>
+  </div>
+  <nav class="side-nav" aria-label="القائمة الرئيسية">
+    <a href="#">إسناد المركبات</a>
+    <a href="#">البطاقات الجمركية</a>
+    <a href="#">رخص السير</a>
+    <a href="#">التفويضات</a>
+    <a href="#">الطرود</a>
+    <a href="#">قائمة المركبات</a>
+    <a href="#">طلبات اللوحات</a>
+    <a href="#">قيود نقل الملكية</a>
+    <a class="nav-heading inquiry-menu-toggle" href="#inquiryOptions" aria-expanded="false" onclick="toggleInquiryMenu(event)">الاستعلامات <span class="inquiry-menu-arrow" aria-hidden="true">⌄</span></a>
+    <div id="inquiryOptions" class="inquiry-submenu hidden">
+      <a class="sub-link" href="#inquiryPage" onclick="openInquiryPage(event)">الفحص الدوري للمركبات</a>
+      <a class="sub-link" href="#" onclick="showInquiryUnavailable(event,this.textContent)">المخالفات المرورية</a>
+      <a class="sub-link" href="#" onclick="showInquiryUnavailable(event,this.textContent)">معلومات رخص القيادة</a>
+      <a class="sub-link" href="#" onclick="showInquiryUnavailable(event,this.textContent)">تفاصيل حوادث المركبات</a>
+      <a class="sub-link" href="#" onclick="showInquiryUnavailable(event,this.textContent)">معلومات تأمين المركبة</a>
+      <a class="sub-link" href="#" onclick="showInquiryUnavailable(event,this.textContent)">البطاقة الجمركية</a>
+      <a class="sub-link" href="#" onclick="showInquiryUnavailable(event,this.textContent)">طلبات الاستعلامات</a>
+    </div>
+    <a class="nav-heading ownership-menu-toggle" href="#ownershipOptions" aria-expanded="false" onclick="toggleOwnershipMenu(event)">نقل الملكية <span class="inquiry-menu-arrow" aria-hidden="true">⌄</span></a>
+    <div id="ownershipOptions" class="inquiry-submenu hidden">
+      <a class="sub-link selected" href="#page1" onclick="returnToTransaction(event)">نقل ملكية المركبات</a>
+      <a class="sub-link" href="#operationsHistory">قائمة عمليات نقل الملكية</a>
+    </div>
+  </nav>
+  <section class="account-sidebar" aria-label="إعدادات الحساب">
+    <div class="account-sidebar-title" id="sidebarAccountTitle">حساب المستخدم</div>
+    <span class="account-sidebar-identity" id="sidebarAccountIdentity">غير مسجل الدخول</span>
+    <div class="account-sidebar-actions"><button type="button" onclick="openAccountSettings()">إعدادات الحساب</button><button type="button" onclick="logout()">تسجيل الخروج</button></div>
+  </section>
+</aside>
+<div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+<main class="main-content">
+<header class="app-topbar">
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="فتح القائمة الجانبية" aria-expanded="false" aria-controls="siteSidebar"><span></span><span></span><span></span></button>
+  <button class="topbar-back" type="button" onclick="goBackInApp()" aria-label="رجوع للصفحة السابقة">↶ رجوع</button>
+  <div class="topbar-title"><strong>بوابة خدمات المركبات</strong><span>إدارة معاملاتك بكل سهولة وأمان</span></div>
+  <div class="topbar-status" aria-label="النظام يعمل بشكل طبيعي">النظام متاح</div>
+</header>
+<div id="loadingOverlay" class="loading-overlay" role="status" aria-live="polite" aria-hidden="true">
+  <div class="loading-card"><div class="loading-mark"><span>تم</span></div><div class="loading-message">جاري تجهيز صفحة التحقق...</div></div>
+</div>
+<div class="header-steps">
+  <div class="step active" data-step="1">بيانات المركبة</div>
+  <div class="step" data-step="2">البيانات الإضافية</div>
+  <div class="step" data-step="3">فحص وإقرار</div>
+  <div class="step" data-step="4">بيانات العقد</div>
+  <div class="step" data-step="5">التحقق</div>
+</div>
+
+<!-- الصفحة الأولى -->
+<section class="page active" id="page1">
+<div class="container">
+  <div class="section">
+    <div class="section-title">بيانات اللوحة</div>
+    <div class="row">
+      <div><label>نوع تسجيل اللوحة</label><select id="plateType"><option>خاص</option><option>نقل</option></select></div>
+      <div><label>رقم اللوحة</label><div class="plate-box">
+        <input class="plate-letter" maxlength="1" oninput="moveNext(this)"><input class="plate-letter" maxlength="1" oninput="moveNext(this)"><input class="plate-letter" maxlength="1" oninput="moveNext(this)">
+        <input class="plate-number" maxlength="1" oninput="moveNext(this)"><input class="plate-number" maxlength="1" oninput="moveNext(this)"><input class="plate-number" maxlength="1" oninput="moveNext(this)"><input class="plate-number" maxlength="1" oninput="moveNext(this)">
+      </div></div><div></div>
+    </div>
+  </div>
+  <div class="section"><div class="section-title">بيانات البائع</div>
+    <div class="row">
+      <div><label>نوع البائع</label><select id="sellerType" onchange="toggleSeller()"><option value="person">فرد</option><option value="company">شركة</option></select></div>
+      <div><label>رقم الهوية</label><input id="sellerId" type="text"></div>
+      <div id="sellerBirthWrap"><label>سنة الميلاد</label><input id="sellerBirth" type="number" placeholder="1995"></div>
+    </div>
+    <div id="sellerIqama" class="hidden"><label>رقم الإقامة</label><input id="sellerIqamaInput" type="text" style="max-width:380px"></div>
+  </div>
+  <div class="section"><div class="section-title">بيانات المشتري</div>
+    <div class="row">
+      <div><label>نوع المشتري</label><select id="buyerType"><option value="person">فرد</option><option value="company">شركة</option></select></div>
+      <div><label>رقم الهوية</label><input id="buyerId" type="text"></div>
+      <div><label for="buyerVerificationMethod">التحقق بواسطة</label><select id="buyerVerificationMethod" onchange="updateBuyerVerificationLabel()"><option value="iqama">رقم الإقامة</option><option value="license">رخصة السير</option></select></div>
+    </div>
+    <div id="buyerVerificationSingleField"><label id="buyerVerificationLabel" for="buyerVerificationValue">رقم الإقامة</label><input id="buyerVerificationValue" type="text" style="max-width:380px" autocomplete="off"></div>
+    <div id="buyerLicenseField" class="hidden"><label>رقم رخصة السير</label><div class="plate-box buyer-license-box" dir="rtl" aria-label="رقم رخصة السير من سبعة أرقام">
+      <input inputmode="numeric" maxlength="1" aria-label="رقم رخصة السير 1" oninput="moveBuyerLicenseNext(this)">
+      <input inputmode="numeric" maxlength="1" aria-label="رقم رخصة السير 2" oninput="moveBuyerLicenseNext(this)">
+      <input inputmode="numeric" maxlength="1" aria-label="رقم رخصة السير 3" oninput="moveBuyerLicenseNext(this)">
+      <input inputmode="numeric" maxlength="1" aria-label="رقم رخصة السير 4" oninput="moveBuyerLicenseNext(this)">
+      <input inputmode="numeric" maxlength="1" aria-label="رقم رخصة السير 5" oninput="moveBuyerLicenseNext(this)">
+      <input inputmode="numeric" maxlength="1" aria-label="رقم رخصة السير 6" oninput="moveBuyerLicenseNext(this)">
+      <input inputmode="numeric" maxlength="1" aria-label="رقم رخصة السير 7" oninput="moveBuyerLicenseNext(this)">
+    </div></div>
+  </div>
+  <div class="section"><div class="section-title">المستخدم الفعلي</div>
+    <label><input id="actualUser" type="checkbox" style="width:auto"> هل ترغب في إضافة مستخدم فعلي للمركبة؟</label>
+  </div>
+  <div class="footer"><span></span><button type="button" onclick="nextPage()">التالي</button></div>
+</div>
+</section>
+
+<!-- الصفحة الثانية -->
+<section class="page" id="page2">
+<div class="container">
+  <div class="page-title">البيانات الإضافية للمعاملة <span class="step-badge">الخطوة 2 من 5</span></div>
+  <div class="section"><div class="section-title">بيانات العقد</div><div class="row">
+     <div><label>قيمة المركبة</label><input id="vehicleValue" type="text"></div>
+     <div><label>رقم العقد</label><input id="contractNo" type="text"></div><div></div>
+  </div></div>
+  <div class="section"><div class="row">
+    <div><label>مبلغ المبايعة كتابة</label><input id="saleAmountWords" type="text" placeholder="مثال: مائة ألف ريال سعودي"></div><div></div><div></div>
+  </div></div>
+  <div class="section"><div class="section-title">عنوان المشتري</div>
+    <div class="row four">
+      <div><label>المنطقة</label><select id="region"><option>اختر</option><option>الرياض</option><option>مكة</option><option>المدينة</option><option>جدة</option></select></div>
+      <div><label>رقم الجوال</label><input id="addressMobile" type="tel" inputmode="numeric" pattern="5[0-9]*" title="يجب أن يبدأ رقم الجوال بالرقم 5 ثم أرقام فقط" required oninput="normalizeMobile(this)"></div><div><label>الحي</label><input id="district"></div><div><label>الرمز البريدي</label><input id="postal"></div>
+    </div>
+    <div class="row four">
+      <div><label>الشارع</label><input id="street"></div><div><label>رقم المبنى</label><input id="building"></div><div><label>الرقم الإضافي</label><input id="additional"></div><div><label>الوحدة</label><input id="unit"></div>
+    </div>
+  </div>
+  <div class="section"><div class="section-title">بيانات التواصل</div><div class="row four">
+    <div><label>رقم الجوال</label><input id="mobile"></div><div><label>البريد الإلكتروني</label><input id="email" type="email"></div><div><label>هاتف بديل</label><input id="altPhone"></div>
+    <div><label>طريقة التواصل</label><select id="contactMethod"><option>SMS</option><option>بريد إلكتروني</option></select></div>
+  </div></div>
+  <div class="section"><div class="section-title">الوكالة أو التفويض</div><div class="row four">
+    <div><label>هل يوجد وكالة؟</label><select id="power"><option>لا</option><option>نعم</option></select></div><div><label>رقم الوكالة</label><input id="powerNo"></div><div><label>جهة الإصدار</label><input id="issuer"></div><div><label>تاريخ الإصدار</label><input id="issueDate" type="date"></div>
+  </div></div>
+  <div class="section"><div class="row four"><div><label>رقم مرجعي 1</label><input id="ref1"></div><div><label>رقم مرجعي 2</label><input id="ref2"></div><div><label>رقم مرجعي 3</label><input id="ref3"></div><div><label>بيان إضافي 1</label><input id="extra1"></div></div>
+  <div class="row four"><div><label>بيان إضافي 2</label><input id="extra2"></div><div><label>بيان إضافي 3</label><input id="extra3"></div><div></div><div></div></div></div>
+  <div class="buttons"><button type="button" class="back" onclick="prevPage()">السابق</button><button type="button" onclick="nextPage()">التالي</button></div>
+</div>
+</section>
+
+<!-- الصفحة الثالثة -->
+<section class="page" id="page3">
+<div class="container">
+  <div class="page-title">إقرار وفحص المركبة <span class="step-badge">الخطوة 3 من 5</span></div>
+  <div class="section">
+    <div class="notice">يجب إدخال عدد الكيلومترات المقطوعة للمركبة بدقة.<br>التأكد من مطابقة بيانات المركبة قبل الإرسال.<br>أي بيانات غير صحيحة قد تؤدي إلى رفض الطلب.</div>
+    <div style="margin-bottom:20px"><label>عدد الكيلومترات المقطوعة للمركبة</label><input id="km" type="number" placeholder="مثال: 185000"></div>
+    <div><label>ملاحظات إضافية</label><textarea id="notes" placeholder="اكتب أي ملاحظات تخص المركبة"></textarea></div>
+  </div>
+  <div class="buttons"><button type="button" class="back" onclick="prevPage()">السابق</button><button type="button" onclick="nextPage()">التالي</button></div>
+</div>
+</section>
+
+<!-- صفحة العقد -->
+<section class="page" id="page4">
+<div class="container">
+  <div class="page-title">بيانات العقد <span class="step-badge">الخطوة 4 من 5</span></div>
+  <div class="contract-details">
+    <div class="section-title">بيانات العقد</div>
+    <div class="contract-detail-row"><span class="contract-detail-label">الغرض من نقل الملكية</span><span class="contract-detail-value">مبايعة</span></div>
+    <div class="contract-detail-row"><span class="contract-detail-label">قيمة المركبة</span><span class="contract-detail-value" id="contractSummaryValue">غير محددة</span></div>
+    <div class="contract-detail-row"><span class="contract-detail-label">مبلغ المبايعة كتابة</span><span class="contract-detail-value" id="contractSummaryWords">غير محدد</span></div>
+  </div>
+  <div class="contract-actions">
+    <button type="button" onclick="downloadContract()">تنزيل العقد</button>
+    <button type="button" class="upload-button" onclick="document.getElementById('contractImage').click()">رفع ملف أو صورة العقد</button>
+  </div>
+  <div class="contract-upload">
+    <label for="contractImage">اختر صورة أو ملف العقد الموقّع (صورة، PDF، Word أو TXT)</label>
+    <input id="contractImage" type="file" accept="image/*,.pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" onchange="previewContractImage(event)">
+    <div id="contractFileName" class="contract-file-name hidden" role="status" aria-live="polite"></div>
+    <img id="contractPreview" class="contract-preview hidden" alt="معاينة صورة العقد">
+    <iframe id="contractPdfPreview" class="contract-pdf-preview hidden" title="معاينة ملف العقد PDF"></iframe>
+  </div>
+  <div class="agreement">
+    <label><input id="contractAgreement" type="checkbox"> أقر بأن جميع البيانات المدخلة صحيحة، وأوافق على متابعة إجراءات نقل الملكية.</label>
+  </div>
+  <div class="page-title" style="padding-bottom:16px;text-align:center;font-weight:bold">الرجاء تأكيد البيانات المدخلة قبل المتابعة</div>
+  <div class="buttons"><button type="button" class="back" onclick="prevPage()">العودة</button><button type="button" onclick="continueToVerification()">التالي</button></div>
+</div>
+</section>
+
+<!-- صفحة التحقق -->
+<section class="page" id="page5">
+<div class="container">
+  <div class="page-title">التحقق من الرموز <span class="step-badge">الخطوة 5 من 5</span></div>
+  <div class="section">
+    <div class="section-title">رمز البائع</div>
+    <label>أدخل رمز البائع المكوّن من 4 أرقام</label>
+    <div class="code-boxes" data-group="sellerCode">
+      <input inputmode="numeric" maxlength="1" oninput="moveCodeNext(this)" aria-label="رقم 1">
+      <input inputmode="numeric" maxlength="1" oninput="moveCodeNext(this)" aria-label="رقم 2">
+      <input inputmode="numeric" maxlength="1" oninput="moveCodeNext(this)" aria-label="رقم 3">
+      <input inputmode="numeric" maxlength="1" oninput="moveCodeNext(this)" aria-label="رقم 4">
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">رمز المشتري</div>
+    <label>أدخل رمز المشتري المكوّن من 4 أرقام</label>
+    <div class="code-boxes" data-group="buyerCode">
+      <input inputmode="numeric" maxlength="1" oninput="moveCodeNext(this)" aria-label="رقم 1">
+      <input inputmode="numeric" maxlength="1" oninput="moveCodeNext(this)" aria-label="رقم 2">
+      <input inputmode="numeric" maxlength="1" oninput="moveCodeNext(this)" aria-label="رقم 3">
+      <input inputmode="numeric" maxlength="1" oninput="moveCodeNext(this)" aria-label="رقم 4">
+    </div>
+  </div>
+  <div class="buttons"><button type="button" class="back" onclick="prevPage()">السابق</button><button type="button" onclick="completeTransaction()">تأكيد</button></div>
+</div>
+</section>
+
+<!-- سجل عمليات نقل الملكية -->
+<section id="operationsHistory" class="page" aria-labelledby="historyTitle">
+  <div class="history-header">
+    <div><h1 id="historyTitle">قائمة عمليات نقل ملكية المركبات المملوكة</h1><div id="historyCount" class="history-count"></div></div>
+  </div>
+  <div class="history-alert">عزيزي العميل، يمكنك البحث عن جميع عمليات نقل الملكية التي تم إدخالها على المنصة.</div>
+  <div class="history-filters" aria-label="معايير البحث">
+    <div class="history-filter-grid">
+      <div><label for="historyFromDate">من تاريخ</label><input id="historyFromDate" type="date"></div>
+      <div><label for="historyToDate">إلى تاريخ</label><input id="historyToDate" type="date"></div>
+      <div><label for="historySellerId">هوية البائع</label><input id="historySellerId" type="text" inputmode="numeric"></div>
+      <div><label for="historyBuyerId">هوية المشتري</label><input id="historyBuyerId" type="text" inputmode="numeric"></div>
+      <div><label for="historySearchType">نوع البحث</label><select id="historySearchType"><option value="all">الكل</option><option value="sale">نقل ملكية</option></select></div>
+    </div>
+    <div class="history-filter-actions"><button type="button" onclick="searchOperationsHistory()">بحث</button><button type="button" class="history-clear" onclick="clearHistoryFilters()">مسح الحقول</button></div>
+  </div>
+  <div class="history-export"><button type="button" onclick="exportOperationsCsv()" aria-label="تصدير العمليات إلى ملف إكسل">⇩　تصدير Excel</button></div>
+  <div class="history-table-wrap"><table class="history-table">
+    <thead><tr><th>رقم اللوحة</th><th>نوع اللوحة</th><th>رقم العقد</th><th>هوية البائع</th><th>هوية المشتري</th><th>تاريخ العملية</th><th>العمليات</th></tr></thead>
+    <tbody id="historyRows"></tbody>
+  </table><div id="historyEmpty" class="history-empty hidden">لم يتم العثور على عمليات بناءً على معايير البحث التي أدخلتها.</div></div>
+  <div class="history-actions"><button type="button" onclick="startNewTransaction()">بدء معاملة جديدة</button></div>
+</section>
+
+<!-- صفحة الاستعلامات -->
+<section id="inquiryPage" class="page inquiry-page" aria-labelledby="inquiryTitle">
+  <header class="inquiry-heading">
+    <div class="inquiry-breadcrumb">الصفحة الرئيسية　/　الفحص الدوري للمركبات</div>
+    <h1 id="inquiryTitle">الفحص الدوري للمركبات</h1>
+  </header>
+  <div class="inquiry-panel">
+    <div class="inquiry-form">
+      <div class="inquiry-grid">
+        <div class="inquiry-field"><label for="inquiryType">نوع البحث</label><select id="inquiryType" onchange="toggleInquiryFields()"><option value="plate">رقم اللوحة</option><option value="base">الرقم الأساسي</option></select></div>
+        <div class="inquiry-field" id="inquiryPlateTypeField"><label for="inquiryPlateType">نوع تسجيل اللوحة</label><select id="inquiryPlateType"><option>خاص</option><option>نقل</option><option>دراجة نارية</option></select></div>
+        <div class="inquiry-field" id="inquiryPlateNumberField"><label>رقم اللوحة</label><div class="inquiry-plate"><input aria-label="حرف اللوحة الأول" maxlength="1" oninput="moveInquiryPlateNext(this)"><input aria-label="حرف اللوحة الثاني" maxlength="1" oninput="moveInquiryPlateNext(this)"><input aria-label="حرف اللوحة الثالث" maxlength="1" oninput="moveInquiryPlateNext(this)"><input aria-label="رقم اللوحة الأول" inputmode="numeric" maxlength="1" oninput="moveInquiryPlateNext(this)"><input aria-label="رقم اللوحة الثاني" inputmode="numeric" maxlength="1" oninput="moveInquiryPlateNext(this)"><input aria-label="رقم اللوحة الثالث" inputmode="numeric" maxlength="1" oninput="moveInquiryPlateNext(this)"><input aria-label="رقم اللوحة الرابع" inputmode="numeric" maxlength="1" oninput="moveInquiryPlateNext(this)"></div></div>
+        <div class="inquiry-field hidden" id="inquiryBaseNumberField"><label for="inquiryBaseNumber">الرقم الأساسي</label><input id="inquiryBaseNumber" class="inquiry-base-number" type="text" inputmode="numeric" placeholder="أدخل الرقم الأساسي"></div>
+      </div>
+    </div>
+    <div class="inquiry-actions"><button type="button" class="inquiry-search" onclick="searchVehicleInspection()">بحث　⌕</button><button type="button" class="inquiry-reset" onclick="resetVehicleInspectionSearch()">مسح الحقول　⌕</button></div>
+    <div id="inquiryResult" class="inquiry-result hidden" role="status" aria-live="polite"></div>
+  </div>
+</section>
+
+<div id="accountSettingsModal" class="vehicle-modal" role="dialog" aria-modal="true" aria-labelledby="accountSettingsTitle" aria-hidden="true" onclick="closeAccountSettings(event)">
+  <section class="vehicle-dialog" onclick="event.stopPropagation()">
+    <header class="vehicle-dialog-header"><h2 id="accountSettingsTitle">إعدادات الحساب</h2><button type="button" class="vehicle-dialog-close" aria-label="إغلاق الإعدادات" onclick="closeAccountSettings()">×</button></header>
+    <form class="account-settings-form" onsubmit="updateAccountPassword(event)">
+      <p class="account-settings-note">يمكنك مراجعة رقم الهوية وتغيير كلمة المرور. بيانات الحساب محفوظة محلياً في هذا المتصفح ضمن النموذج التجريبي.</p>
+      <div class="auth-field"><label for="settingsIdentity">رقم الهوية</label><input id="settingsIdentity" type="text" readonly></div>
+      <div class="auth-field"><label for="settingsCurrentPassword">كلمة المرور الحالية</label><input id="settingsCurrentPassword" type="password" autocomplete="current-password" required></div>
+      <div class="auth-field"><label for="settingsNewPassword">كلمة المرور الجديدة</label><input id="settingsNewPassword" type="password" autocomplete="new-password" minlength="8" required></div>
+      <div class="auth-field"><label for="settingsConfirmPassword">تأكيد كلمة المرور الجديدة</label><input id="settingsConfirmPassword" type="password" autocomplete="new-password" minlength="8" required></div>
+      <button class="auth-submit" type="submit">حفظ كلمة المرور الجديدة</button>
+    </form>
+  </section>
+</div>
+<div id="vehicleDetailsModal" class="vehicle-modal" role="dialog" aria-modal="true" aria-labelledby="vehicleDetailsTitle" onclick="closeVehicleDetails(event)">
+  <section class="vehicle-dialog" onclick="event.stopPropagation()">
+    <header class="vehicle-dialog-header"><h2 id="vehicleDetailsTitle">بيانات المركبة</h2><button type="button" class="vehicle-dialog-close" aria-label="إغلاق" onclick="closeVehicleDetails()">×</button></header>
+    <div id="vehicleDetailsContent" class="vehicle-dialog-content"></div>
+    <footer class="vehicle-dialog-actions"><button id="downloadOperationContractButton" type="button" onclick="downloadSelectedOperationContract()">تنزيل العقد</button><button id="printOperationLicenseButton" type="button" class="print-license" onclick="printSelectedOperationLicense()">طباعة الرخصة</button></footer>
+  </section>
+</div>
+
+ </main>
+ </div>
+<script>
+let currentPage=1;
+let pageTransitioning=false;
+let currentUploadedContract=null;
+let currentUploadedContractName='';
+let contractPreviewObjectUrl='';
+const operationsStorageKey='tamVehicleTransferOperations';
+const accountStorageKey='tamDemoAccounts';
+const viewStorageKey='tamDemoCurrentView';
+const defaultDemoIdentity='1000000000';
+const defaultDemoAccount={salt:[84,97,109,68,101,109,111,65,99,99,111,117,110,116,48,49],passwordHash:'b6106ba4722cfd092f8293341d820b345ba14acd4a41072e086fc1b125560c53'};
+let currentAccountIdentity=sessionStorage.getItem('tamDemoCurrentIdentity')||'';
+const rememberedLoginKey='tamDemoRememberedLogin';
+function saveRememberedLogin(identity,password,remember){
+  if(!remember){
+    localStorage.removeItem(rememberedLoginKey);
+    return;
+  }
+  localStorage.setItem(rememberedLoginKey,JSON.stringify({identity,password}));
+}
+function restoreRememberedLogin(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(rememberedLoginKey)||'null');
+    if(!saved || !saved.identity || !saved.password) return null;
+    return saved;
+  }catch(error){
+    return null;
+  }
+}
+function syncRememberedLoginFromForm(){
+  const rememberInput=document.getElementById('rememberLogin');
+  const identityInput=document.getElementById('loginIdentity');
+  const passwordInput=document.getElementById('loginPassword');
+  if(!rememberInput||!identityInput||!passwordInput) return;
+  if(rememberInput.checked&&identityInput.value&&passwordInput.value){
+    saveRememberedLogin(identityInput.value,passwordInput.value,true);
+  }else if(!rememberInput.checked){
+    saveRememberedLogin('','',false);
+  }
+}
+document.getElementById('rememberLogin').addEventListener('change',syncRememberedLoginFromForm);
+document.getElementById('loginIdentity').addEventListener('input',syncRememberedLoginFromForm);
+document.getElementById('loginPassword').addEventListener('input',syncRememberedLoginFromForm);
+function saveCurrentView(view,screen='transaction',page=currentPage){
+  sessionStorage.setItem(viewStorageKey,JSON.stringify({view,screen,page}));
+}
+const landingTranslations={
+  en:{tamm:'Tamm',business:'Business',changeMobile:'Change User Mobile Number',resetPassword:'Reset Password',signIn:'Sign In',heroTitle:'Tamm Platform',heroSubtitle:'Electronic Vehicle Services',heroDescription:'The Tamm Portal helps regulate the transport and vehicle sector in Saudi Arabia by providing advanced e-services that enable customers to complete vehicle-related traffic transactions with the General Directorate of Traffic.',signUp:'Sign Up',forms:'Tamm Forms',privacy:'Data Privacy Notice',faq:'Frequently Asked Questions',userGuide:'User Guide',support:'Technical Support　920000356'},
+  ar:{tamm:'تم',business:'أعمال',changeMobile:'تغيير رقم جوال المستخدم',resetPassword:'إعادة تعيين كلمة المرور',signIn:'تسجيل الدخول',heroTitle:'منصة تم',heroSubtitle:'خدمات المركبات الإلكترونية',heroDescription:'تساهم بوابة تم في تنظيم قطاع النقل والمركبات في المملكة العربية السعودية من خلال إتاحة خدمات إلكترونية متطورة لتمكين العملاء من إجراء معاملاتهم المرورية الخاصة بالمركبات والمرتبطة بالإدارة العامة للمرور.',signUp:'سجل الآن',forms:'نماذج تم',privacy:'إشعار خصوصية البيانات',faq:'الأسئلة الشائعة',userGuide:'دليل الاستخدام',support:'الدعم الفني　920000356'}
+};
+function setLandingLanguage(language){
+  const selectedLanguage=language==='en'?'en':'ar';
+  const landing=document.getElementById('landingPage');
+  const translations=landingTranslations[selectedLanguage];
+  landing.lang=selectedLanguage;
+  landing.dir=selectedLanguage==='en'?'ltr':'rtl';
+  landing.setAttribute('aria-label',selectedLanguage==='en'?'Tamm Platform home page':'الصفحة الرئيسية لمنصة تم');
+  landing.querySelector('.landing-brand').setAttribute('aria-label',selectedLanguage==='en'?'Tamm Platform':'منصة تم');
+  landing.querySelector('.landing-links').setAttribute('aria-label',selectedLanguage==='en'?'Site links':'روابط الموقع');
+  landing.querySelector('.landing-icon-button').setAttribute('aria-label',selectedLanguage==='en'?'View profile photo':'عرض الصورة بالحجم الكامل');
+  landing.querySelectorAll('[data-i18n]').forEach(element=>{
+    const key=element.dataset.i18n;
+    if(translations[key]) element.textContent=translations[key];
+  });
+  const languageButton=document.getElementById('languageToggle');
+  languageButton.textContent=selectedLanguage==='en'?'العربية':'English';
+  languageButton.lang=selectedLanguage==='en'?'ar':'en';
+  document.title=selectedLanguage==='en'?'Tamm Platform':'منصة تم';
+  localStorage.setItem('tamDemoLanguage',selectedLanguage);
+}
+function toggleLandingLanguage(){
+  setLandingLanguage(document.getElementById('landingPage').lang==='en'?'ar':'en');
+}
+function enterTransaction(){
+  document.body.classList.remove('home-view','login-view','signup-view');
+  document.querySelector('.header-steps').style.display='';
+  saveCurrentView('app');
+  showPage(1);
+}
+function showLandingPage(){
+  document.body.classList.remove('login-view','signup-view','reset-view','mobile-view');
+  document.body.classList.add('home-view');
+  saveCurrentView('home');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showLoginPage(){
+  document.body.classList.remove('home-view','signup-view','reset-view','mobile-view');
+  document.body.classList.add('login-view');
+  saveCurrentView('login');
+  window.scrollTo({top:0,behavior:'smooth'});
+  const remembered=restoreRememberedLogin();
+  const identityInput=document.getElementById('loginIdentity');
+  const passwordInput=document.getElementById('loginPassword');
+  const rememberInput=document.getElementById('rememberLogin');
+  if(remembered){
+    identityInput.value=remembered.identity;
+    passwordInput.value=remembered.password;
+    rememberInput.checked=true;
+  }else{
+    identityInput.value='';
+    passwordInput.value='';
+    rememberInput.checked=false;
+  }
+  identityInput.focus({preventScroll:true});
+}
+function showSignupPage(){
+  document.body.classList.remove('home-view','login-view','reset-view','mobile-view');
+  document.body.classList.add('signup-view');
+  saveCurrentView('signup');
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('signupIdentity').focus({preventScroll:true});
+}
+function showPasswordResetPage(){
+  document.body.classList.remove('home-view','login-view','signup-view','mobile-view');
+  document.body.classList.add('reset-view');
+  saveCurrentView('reset');
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('resetIdentity').focus({preventScroll:true});
+}
+function showChangeMobilePage(){
+  document.body.classList.remove('home-view','login-view','signup-view','reset-view');
+  document.body.classList.add('mobile-view');
+  saveCurrentView('mobile');
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('mobileIdentity').focus({preventScroll:true});
+}
+function showProfileImage(){
+  const modal=document.getElementById('profileImageModal');
+  modal.classList.add('visible');
+  modal.setAttribute('aria-hidden','false');
+  modal.querySelector('.profile-image-close').focus();
+}
+function closeProfileImage(event){
+  const modal=document.getElementById('profileImageModal');
+  if(event&&event.target!==modal) return;
+  modal.classList.remove('visible');
+  modal.setAttribute('aria-hidden','true');
+  document.querySelector('.landing-icon-button').focus({preventScroll:true});
+}
+function refreshAccountSidebar(){
+  const identityLabel=document.getElementById('sidebarAccountIdentity');
+  const title=document.getElementById('sidebarAccountTitle');
+  title.textContent=currentAccountIdentity?'حسابي':'حساب المستخدم';
+  identityLabel.textContent=currentAccountIdentity||'غير مسجل الدخول';
+}
+function openAccountSettings(){
+  if(!currentAccountIdentity){
+    alert('سجّل الدخول أولاً للوصول إلى إعدادات الحساب.');
+    showLoginPage();
+    return;
+  }
+  document.getElementById('settingsIdentity').value=currentAccountIdentity;
+  document.getElementById('accountSettingsModal').classList.add('visible');
+  document.getElementById('accountSettingsModal').setAttribute('aria-hidden','false');
+  document.getElementById('settingsCurrentPassword').focus();
+}
+function closeAccountSettings(event){
+  const modal=document.getElementById('accountSettingsModal');
+  if(event&&event.target!==modal) return;
+  modal.classList.remove('visible');
+  modal.setAttribute('aria-hidden','true');
+}
+function logout(){
+  currentAccountIdentity='';
+  sessionStorage.removeItem('tamDemoCurrentIdentity');
+  refreshAccountSidebar();
+  closeAccountSettings();
+  document.getElementById('loginPassword').value='';
+  const rememberInput=document.getElementById('rememberLogin');
+  if(rememberInput) rememberInput.checked=false;
+  localStorage.removeItem(rememberedLoginKey);
+  showLandingPage();
+}
+function goBackInApp(){
+  const historyOpen=document.getElementById('operationsHistory').classList.contains('active');
+  const inquiryOpen=document.getElementById('inquiryPage').classList.contains('active');
+  if(historyOpen||inquiryOpen){
+    returnToTransaction();
+    return;
+  }
+  if(currentPage>1){
+    prevPage();
+    return;
+  }
+  showLandingPage();
+}
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&document.getElementById('profileImageModal').classList.contains('visible')) closeProfileImage();
+  if(event.key==='Escape'&&document.getElementById('accountSettingsModal').classList.contains('visible')) closeAccountSettings();
+});
+function readDemoAccounts(){
+  try{
+    const accounts=JSON.parse(localStorage.getItem(accountStorageKey)||'{}');
+    const validAccounts=accounts&&typeof accounts==='object'&&!Array.isArray(accounts)?accounts:{};
+    if(!validAccounts[defaultDemoIdentity]){
+      validAccounts[defaultDemoIdentity]=defaultDemoAccount;
+      localStorage.setItem(accountStorageKey,JSON.stringify(validAccounts));
+    }
+    return validAccounts;
+  }catch(error){
+    return {};
+  }
+}
+async function hashAccountPassword(password,salt){
+  const passwordKey=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);
+  const hash=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new Uint8Array(salt),iterations:150000,hash:'SHA-256'},passwordKey,256);
+  return Array.from(new Uint8Array(hash),byte=>byte.toString(16).padStart(2,'0')).join('');
+}
+function submitLogin(event){
+  event.preventDefault();
+  authenticateDemoAccount(event.currentTarget);
+}
+async function authenticateDemoAccount(form){
+  const identity=document.getElementById('loginIdentity').value;
+  const password=document.getElementById('loginPassword').value;
+  const rememberInput=document.getElementById('rememberLogin');
+  const account=readDemoAccounts()[identity];
+  if(!account){
+    alert('لا يوجد حساب بهذا الرقم على هذا المتصفح. أنشئ حساباً جديداً أولاً.');
+    showSignupPage();
+    document.getElementById('signupIdentity').value=identity;
+    return;
+  }
+  if(!window.crypto||!crypto.subtle){
+    alert('ميزة التحقق الآمن غير متاحة في هذا المتصفح.');
+    return;
+  }
+  const submitButton=form.querySelector('.auth-submit');
+  submitButton.disabled=true;
+  try{
+    const passwordHash=await hashAccountPassword(password,account.salt);
+    if(passwordHash!==account.passwordHash){
+      alert('رقم الهوية أو كلمة المرور غير صحيحة.');
+      return;
+    }
+    currentAccountIdentity=identity;
+    sessionStorage.setItem('tamDemoCurrentIdentity',identity);
+    saveRememberedLogin(identity,password,Boolean(rememberInput && rememberInput.checked));
+    refreshAccountSidebar();
+    alert('تم تسجيل الدخول بنجاح.');
+    enterTransaction();
+  }catch(error){
+    alert('تعذر التحقق من الحساب في هذا المتصفح.');
+  }finally{
+    submitButton.disabled=false;
+  }
+}
+async function updateAccountPassword(event){
+  event.preventDefault();
+  const form=event.currentTarget;
+  const currentPassword=document.getElementById('settingsCurrentPassword');
+  const newPassword=document.getElementById('settingsNewPassword');
+  const confirmation=document.getElementById('settingsConfirmPassword');
+  currentPassword.setCustomValidity('');
+  newPassword.setCustomValidity(newPassword.value!==currentPassword.value?'':'اختر كلمة مرور جديدة تختلف عن الحالية.');
+  confirmation.setCustomValidity(newPassword.value===confirmation.value?'':'كلمتا المرور الجديدتان غير متطابقتين.');
+  if(!form.reportValidity()) return;
+  const accounts=readDemoAccounts();
+  const account=accounts[currentAccountIdentity];
+  const submitButton=form.querySelector('button[type="submit"]');
+  submitButton.disabled=true;
+  try{
+    const currentHash=await hashAccountPassword(currentPassword.value,account.salt);
+    if(currentHash!==account.passwordHash){
+      currentPassword.setCustomValidity('كلمة المرور الحالية غير صحيحة.');
+      currentPassword.reportValidity();
+      return;
+    }
+    const newSalt=crypto.getRandomValues(new Uint8Array(16));
+    account.salt=Array.from(newSalt);
+    account.passwordHash=await hashAccountPassword(newPassword.value,newSalt);
+    localStorage.setItem(accountStorageKey,JSON.stringify(accounts));
+    alert('تم تحديث كلمة المرور بنجاح.');
+    form.reset();
+    closeAccountSettings();
+  }catch(error){
+    alert('تعذر تحديث كلمة المرور في هذا المتصفح.');
+  }finally{
+    submitButton.disabled=false;
+  }
+}
+async function submitSignup(event){
+  event.preventDefault();
+  const form=event.currentTarget;
+  const identity=document.getElementById('signupIdentity');
+  const password=document.getElementById('signupPassword');
+  const confirmation=document.getElementById('signupConfirmPassword');
+  identity.setCustomValidity('');
+  confirmation.setCustomValidity(password.value===confirmation.value?'':'كلمتا المرور غير متطابقتين.');
+  if(!form.reportValidity()) return;
+  const accounts=readDemoAccounts();
+  if(accounts[identity.value]){
+    identity.setCustomValidity('يوجد حساب مسجل بهذا الرقم على هذا المتصفح.');
+    identity.reportValidity();
+    return;
+  }
+  if(!window.crypto||!crypto.subtle){
+    alert('ميزة إنشاء الحساب الآمن غير متاحة في هذا المتصفح.');
+    return;
+  }
+  const submitButton=form.querySelector('.auth-submit');
+  submitButton.disabled=true;
+  try{
+    const salt=crypto.getRandomValues(new Uint8Array(16));
+    accounts[identity.value]={salt:Array.from(salt),passwordHash:await hashAccountPassword(password.value,salt)};
+    localStorage.setItem(accountStorageKey,JSON.stringify(accounts));
+    alert('تم إنشاء الحساب على هذا المتصفح. يمكنك الآن تسجيل الدخول.');
+    showLoginPage();
+    document.getElementById('loginIdentity').value=identity.value;
+    document.getElementById('loginPassword').focus({preventScroll:true});
+    form.reset();
+  }catch(error){
+    alert('تعذر حفظ الحساب. تحقق من إعدادات التخزين في المتصفح وحاول مجدداً.');
+  }finally{
+    submitButton.disabled=false;
+  }
+}
+function submitPasswordReset(event){
+  event.preventDefault();
+  const password=document.getElementById('resetNewPassword');
+  const confirmation=document.getElementById('resetConfirmPassword');
+  confirmation.setCustomValidity(password.value===confirmation.value?'':'كلمتا المرور غير متطابقتين.');
+  if(!event.currentTarget.reportValidity()) return;
+  alert('تم التحقق من النموذج التجريبي فقط؛ لم تتغير كلمة مرور حقيقية.');
+  event.currentTarget.reset();
+}
+function submitMobileChange(event){
+  event.preventDefault();
+  const current=document.getElementById('currentMobile');
+  const next=document.getElementById('newMobile');
+  const confirmation=document.getElementById('confirmMobile');
+  next.setCustomValidity(next.value!==current.value?'':'يجب أن يختلف الرقم الجديد عن الرقم الحالي.');
+  confirmation.setCustomValidity(next.value===confirmation.value?'':'رقما الجوال الجديد غير متطابقين.');
+  if(!event.currentTarget.reportValidity()) return;
+  alert('تم التحقق من النموذج التجريبي فقط؛ لم يتغير رقم جوال حقيقي.');
+  event.currentTarget.reset();
+}
+function showPage(n){
+  currentPage=n;
+  saveCurrentView('app','transaction',n);
+  document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n-1));
+  document.querySelectorAll('.step').forEach((s,i)=>{s.classList.toggle('active',i===n-1);s.classList.toggle('done',i<n-1)});
+  if(n===4) restoreUploadedContract();
+  window.scrollTo({top:0,behavior:'smooth'});
+  const pageHeading=document.querySelector(`#page${n} .page-title`);
+  if(pageHeading){
+    pageHeading.setAttribute('tabindex','-1');
+    pageHeading.focus({preventScroll:true});
+  }
+}
+function validateFirstStep(){
+  const page=document.getElementById('page1');
+  page.querySelectorAll('input').forEach(input=>input.setCustomValidity(''));
+  const requiredFields=[];
+  const addRequiredField=(field,message)=>requiredFields.push({field,message});
+  page.querySelectorAll('#page1 .plate-box:not(.buyer-license-box) input').forEach(input=>addRequiredField(input,'أكمل إدخال أحرف وأرقام اللوحة.'));
+  addRequiredField(document.getElementById('sellerId'),'أدخل رقم هوية البائع.');
+  if(document.getElementById('sellerType').value==='person') addRequiredField(document.getElementById('sellerBirth'),'أدخل سنة ميلاد البائع.');
+  addRequiredField(document.getElementById('buyerId'),'أدخل رقم هوية المشتري.');
+  if(document.getElementById('buyerVerificationMethod').value==='iqama'){
+    addRequiredField(document.getElementById('buyerVerificationValue'),'أدخل رقم الإقامة للتحقق.');
+  }else{
+    page.querySelectorAll('#buyerLicenseField input').forEach(input=>addRequiredField(input,'أكمل رقم رخصة السير المكوّن من سبعة أرقام.'));
+  }
+  const missing=requiredFields.find(({field})=>!field.value.trim());
+  if(!missing) return true;
+  missing.field.setCustomValidity(missing.message);
+  missing.field.focus({preventScroll:true});
+  missing.field.reportValidity();
+  missing.field.scrollIntoView({behavior:'smooth',block:'center'});
+  return false;
+}
+document.getElementById('page1').addEventListener('input',event=>{
+  if(event.target instanceof HTMLInputElement) event.target.setCustomValidity('');
+});
+function restoreCurrentView(){
+  let savedView;
+  try{savedView=JSON.parse(sessionStorage.getItem(viewStorageKey)||'null');}
+  catch(error){savedView=null;}
+  if(!savedView||typeof savedView.view!=='string') return;
+  if(savedView.view==='home'){showLandingPage();return;}
+  if(savedView.view==='login'){showLoginPage();return;}
+  if(savedView.view==='signup'){showSignupPage();return;}
+  if(savedView.view==='reset'){showPasswordResetPage();return;}
+  if(savedView.view==='mobile'){showChangeMobilePage();return;}
+  if(savedView.view!=='app') return;
+  document.body.classList.remove('home-view','login-view','signup-view','reset-view','mobile-view');
+  const savedPage=Number(savedView.page);
+  currentPage=Number.isInteger(savedPage)&&savedPage>=1&&savedPage<=5?savedPage:1;
+  if(savedView.screen==='history') openOperationsHistory();
+  else if(savedView.screen==='inquiry') openInquiryPage();
+  else{
+    document.querySelector('.header-steps').style.display='';
+    showPage(currentPage);
+  }
+}
+function nextPage(){
+  if(pageTransitioning||currentPage>=5) return;
+  if(currentPage===1){
+    if(!validateFirstStep()) return;
+    showLoadingThenPage(2);
+    return;
+  }
+  if(currentPage===2){
+    const mobile=document.getElementById('addressMobile');
+    if(!mobile.reportValidity()) return;
+  }
+  showPage(currentPage+1);
+}
+function prevPage(){if(currentPage>1) showPage(currentPage-1);}
+function showLoadingThenPage(pageNumber){
+  if(pageTransitioning) return;
+  pageTransitioning=true;
+  const overlay=document.getElementById('loadingOverlay');
+  overlay.classList.add('visible');
+  overlay.setAttribute('aria-hidden','false');
+  window.setTimeout(()=>{
+    showPage(pageNumber);
+    overlay.classList.remove('visible');
+    overlay.setAttribute('aria-hidden','true');
+    pageTransitioning=false;
+  },1400);
+}
+function continueToVerification(){
+  if(pageTransitioning) return;
+  if(!document.getElementById('contractAgreement').checked){
+    alert('يرجى تأكيد صحة البيانات قبل المتابعة.');
+    return;
+  }
+  showLoadingThenPage(5);
+}
+function readSavedOperations(){
+  try{return JSON.parse(localStorage.getItem(operationsStorageKey)||'[]');}
+  catch(error){return [];}
+}
+function getFieldLabel(element){
+  if(element.labels&&element.labels.length) return element.labels[0].textContent.trim();
+  if(element.type==='checkbox'&&element.closest('label')) return element.closest('label').textContent.trim();
+  let parent=element.parentElement;
+  while(parent&&parent!==document.body){
+    const label=[...parent.children].find(child=>child.tagName==='LABEL');
+    if(label) return label.textContent.trim();
+    parent=parent.parentElement;
+  }
+  return element.id||'بيان إضافي';
+}
+function captureTransaction(){
+  const plate=[...document.querySelectorAll('#page1 .plate-box input')].map(input=>input.value).join('');
+  const sellerType=document.getElementById('sellerType').value;
+  const buyerType=document.getElementById('buyerType').value;
+  const fields=[{label:'نوع تسجيل اللوحة',value:document.getElementById('plateType').value},{label:'رقم اللوحة',value:plate||'غير مدخل'},{label:'نوع البائع',value:sellerType==='company'?'شركة':'فرد'},{label:'نوع المشتري',value:buyerType==='company'?'شركة':'فرد'}];
+  document.querySelectorAll('#page1 input:not(.plate-box input),#page1 select,#page1 textarea,#page2 input:not([type="file"]),#page2 select,#page2 textarea,#page3 input,#page3 select,#page3 textarea,#page4 input:not([type="file"]),#page4 select,#page4 textarea').forEach(element=>{
+    const value=element.type==='checkbox'?(element.checked?'نعم':'لا'):element.value;
+    if(value&&value!=='لا') fields.push({label:getFieldLabel(element),value});
+  });
+  return {
+    id:`${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+    createdAt:new Date().toISOString(),
+    plate:plate||'غير مدخل',
+    plateType:document.getElementById('plateType').value,
+    contractNo:document.getElementById('contractNo').value||'غير محدد',
+    seller:document.getElementById('sellerId').value||'غير محدد',
+    buyer:document.getElementById('buyerId').value||'غير محدد',
+    vehicleValue:document.getElementById('vehicleValue').value||'غير محددة',
+    saleAmountWords:document.getElementById('saleAmountWords').value||'غير محدد',
+    fields
+  };
+}
+function completeTransaction(){
+  const operations=readSavedOperations();
+  operations.push(captureTransaction());
+  try{
+    localStorage.setItem(operationsStorageKey,JSON.stringify(operations));
+    alert('تم التحقق من الرموز وحفظ العملية في سجل نقل الملكية.');
+    openOperationsHistory();
+  }catch(error){
+    alert('تعذر حفظ العملية في سجل المتصفح. تحقق من إعدادات التخزين ثم أعد المحاولة.');
+  }
+}
+function getFilteredOperations(){
+  const fromDate=document.getElementById('historyFromDate').value;
+  const toDate=document.getElementById('historyToDate').value;
+  const sellerId=document.getElementById('historySellerId').value.trim().toLowerCase();
+  const buyerId=document.getElementById('historyBuyerId').value.trim().toLowerCase();
+  return readSavedOperations().filter(operation=>{
+    const operationDate=operation.createdAt.slice(0,10);
+    return (!fromDate||operationDate>=fromDate)&&(!toDate||operationDate<=toDate)&&(!sellerId||String(operation.seller).toLowerCase().includes(sellerId))&&(!buyerId||String(operation.buyer).toLowerCase().includes(buyerId));
+  }).reverse();
+}
+function renderOperationsHistory(){
+  const operations=getFilteredOperations();
+  const rows=document.getElementById('historyRows');
+  const empty=document.getElementById('historyEmpty');
+  rows.replaceChildren();
+  const total=readSavedOperations().length;
+  document.getElementById('historyCount').textContent=`عدد النتائج: ${operations.length} من إجمالي ${total} عملية`;
+  empty.classList.toggle('hidden',operations.length>0);
+  document.querySelector('.history-table').classList.toggle('hidden',operations.length===0);
+  operations.forEach(operation=>{
+    const row=document.createElement('tr');
+    const date=new Date(operation.createdAt).toLocaleString('ar-SA');
+    [operation.plate,operation.plateType||'خاص',operation.contractNo,operation.seller,operation.buyer,date].forEach(value=>{
+      const cell=document.createElement('td');
+      cell.textContent=value||'غير محدد';
+      row.append(cell);
+    });
+    const actionCell=document.createElement('td');
+    const detailsButton=document.createElement('button');
+    detailsButton.type='button';
+    detailsButton.className='history-eye';
+    detailsButton.setAttribute('aria-label',`عرض بيانات السيارة للوحة ${operation.plate}`);
+    detailsButton.title='عرض البيانات';
+    detailsButton.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>';
+    detailsButton.addEventListener('click',()=>showOperationDetails(operation));
+    actionCell.append(detailsButton);
+    row.append(actionCell);
+    rows.append(row);
+  });
+}
+function showOperationDetails(operation){
+  const panel=document.getElementById('vehicleDetailsContent');
+  panel.replaceChildren();
+  const title=document.getElementById('vehicleDetailsTitle');
+  title.textContent=`بيانات السيارة — ${operation.plate}`;
+  const coreFields=[
+    {label:'تاريخ العملية',value:new Date(operation.createdAt).toLocaleString('ar-SA')},
+    {label:'رقم اللوحة',value:operation.plate},
+    {label:'نوع اللوحة',value:operation.plateType||'خاص'},
+    {label:'رقم العقد',value:operation.contractNo},
+    {label:'هوية البائع',value:operation.seller},
+    {label:'هوية المشتري',value:operation.buyer},
+    {label:'قيمة المركبة',value:operation.vehicleValue},
+    {label:'مبلغ المبايعة كتابة',value:operation.saleAmountWords}
+  ];
+  const coreLabels=new Set(coreFields.map(field=>field.label));
+  const fields=[...coreFields,...(operation.fields||[]).filter(field=>!coreLabels.has(field.label))];
+  fields.forEach(field=>{
+    const row=document.createElement('div');
+    row.className='history-detail-row';
+    const label=document.createElement('span');
+    label.textContent=field.label;
+    const value=document.createElement('strong');
+    value.textContent=field.value;
+    row.append(label,value);
+    panel.append(row);
+  });
+  document.getElementById('downloadOperationContractButton').dataset.operationId=operation.id;
+  document.getElementById('printOperationLicenseButton').dataset.operationId=operation.id;
+  document.getElementById('vehicleDetailsModal').classList.add('visible');
+  document.getElementById('vehicleDetailsModal').setAttribute('aria-hidden','false');
+  document.getElementById('vehicleDetailsModal').querySelector('.vehicle-dialog-close').focus();
+}
+function closeVehicleDetails(event){
+  if(event&&event.target!==document.getElementById('vehicleDetailsModal')) return;
+  document.getElementById('vehicleDetailsModal').classList.remove('visible');
+  document.getElementById('vehicleDetailsModal').setAttribute('aria-hidden','true');
+}
+function searchOperationsHistory(){renderOperationsHistory();}
+function clearHistoryFilters(){
+  document.getElementById('historyFromDate').value='';
+  document.getElementById('historyToDate').value='';
+  document.getElementById('historySellerId').value='';
+  document.getElementById('historyBuyerId').value='';
+  document.getElementById('historySearchType').value='all';
+  renderOperationsHistory();
+}
+function getOperationById(id){return readSavedOperations().find(operation=>operation.id===id);}
+function downloadSelectedOperationContract(){
+  const id=document.getElementById('downloadOperationContractButton').dataset.operationId;
+  const operation=getOperationById(id);
+  if(operation) downloadContract(operation);
+}
+function printSelectedOperationLicense(){
+  const id=document.getElementById('printOperationLicenseButton').dataset.operationId;
+  const operation=getOperationById(id);
+  if(!operation) return;
+  const escapeHtml=value=>String(value||'غير محدد').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const rows=[{label:'رقم اللوحة',value:operation.plate},{label:'نوع اللوحة',value:operation.plateType},{label:'رقم العقد',value:operation.contractNo},{label:'هوية المالك الحالي',value:operation.buyer},{label:'تاريخ نقل الملكية',value:new Date(operation.createdAt).toLocaleDateString('ar-SA')}];
+  const content=rows.map(row=>`<tr><th>${escapeHtml(row.label)}</th><td>${escapeHtml(row.value)}</td></tr>`).join('');
+  const printWindow=window.open('','_blank','width=850,height=700');
+  if(!printWindow){alert('يرجى السماح بالنوافذ المنبثقة لطباعة الرخصة.');return;}
+  printWindow.document.write(`<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>رخصة سير المركبة</title><style>body{font-family:Tahoma,Arial,sans-serif;margin:40px;color:#26383d}h1{text-align:center;color:#087f85;font-size:22px}p{text-align:center;color:#62767c}table{width:100%;border-collapse:collapse;margin-top:28px}th,td{border:1px solid #ccd8dc;padding:14px;text-align:right}th{width:35%;background:#f2f7f8}@media print{button{display:none}}</style><h1>رخصة سير مركبة</h1><p>نموذج توضيحي صادر من محاكاة منصة تم</p><table>${content}</table><p>هذه الرخصة نموذج للطباعة ضمن المحاكاة.</p><script>window.onload=()=>window.print()<\/script></html>`);
+  printWindow.document.close();
+}
+function exportOperationsCsv(){
+  const operations=getFilteredOperations();
+  const rows=[['رقم اللوحة','نوع اللوحة','رقم العقد','هوية البائع','هوية المشتري','قيمة المركبة','تاريخ العملية'],...operations.map(operation=>[operation.plate,operation.plateType||'خاص',operation.contractNo,operation.seller,operation.buyer,operation.vehicleValue,new Date(operation.createdAt).toLocaleString('ar-SA')])];
+  const csv='\uFEFF'+rows.map(row=>row.map(value=>`"${String(value??'').replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  const link=document.createElement('a');
+  link.href=url;
+  link.download='سجل-عمليات-نقل-الملكية.csv';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+function openOperationsHistory(event){
+  if(event) event.preventDefault();
+  saveCurrentView('app','history',currentPage);
+  document.querySelectorAll('.page').forEach(page=>page.classList.remove('active'));
+  document.querySelector('.header-steps').style.display='none';
+  document.getElementById('operationsHistory').classList.add('active');
+  document.querySelectorAll('.side-nav .sub-link,.side-nav .nav-heading').forEach(link=>link.classList.remove('selected'));
+  document.querySelector('.side-nav a[href="#operationsHistory"]').classList.add('selected');
+  setOwnershipMenuExpanded(true);
+  renderOperationsHistory();
+  document.getElementById('vehicleDetailsModal').classList.remove('visible');
+  document.getElementById('vehicleDetailsModal').setAttribute('aria-hidden','true');
+  document.getElementById('historyTitle').setAttribute('tabindex','-1');
+  document.getElementById('historyTitle').focus({preventScroll:true});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function openInquiryPage(event){
+  if(event) event.preventDefault();
+  saveCurrentView('app','inquiry',currentPage);
+  document.querySelectorAll('.page').forEach(page=>page.classList.remove('active'));
+  document.querySelector('.header-steps').style.display='none';
+  document.getElementById('inquiryPage').classList.add('active');
+  document.getElementById('inquiryOptions').classList.remove('hidden');
+  document.querySelector('.inquiry-menu-toggle').setAttribute('aria-expanded','true');
+  document.querySelectorAll('.side-nav .sub-link,.side-nav .nav-heading').forEach(link=>link.classList.remove('selected'));
+  document.querySelector('.inquiry-menu-toggle').classList.add('selected');
+  document.querySelector('.side-nav a[href="#inquiryPage"]').classList.add('selected');
+  toggleInquiryFields();
+  document.getElementById('inquiryTitle').setAttribute('tabindex','-1');
+  document.getElementById('inquiryTitle').focus({preventScroll:true});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleInquiryMenu(event){
+  if(event) event.preventDefault();
+  const menu=document.getElementById('inquiryOptions');
+  const toggle=document.querySelector('.inquiry-menu-toggle');
+  const expanded=toggle.getAttribute('aria-expanded')==='true';
+  toggle.setAttribute('aria-expanded',String(!expanded));
+  menu.classList.toggle('hidden',expanded);
+  toggle.classList.toggle('selected',!expanded);
+}
+function setOwnershipMenuExpanded(expanded){
+  const menu=document.getElementById('ownershipOptions');
+  const toggle=document.querySelector('.ownership-menu-toggle');
+  if(!menu||!toggle) return;
+  toggle.setAttribute('aria-expanded',String(expanded));
+  menu.classList.toggle('hidden',!expanded);
+  toggle.classList.toggle('selected',expanded);
+}
+function toggleOwnershipMenu(event){
+  if(event) event.preventDefault();
+  const toggle=document.querySelector('.ownership-menu-toggle');
+  setOwnershipMenuExpanded(toggle?.getAttribute('aria-expanded')!=='true');
+}
+function showInquiryUnavailable(event,optionName){
+  if(event) event.preventDefault();
+  alert(`خيار «${optionName.trim()}» غير مفعّل في هذا النموذج حالياً.`);
+}
+function toggleInquiryFields(){
+  const usePlate=document.getElementById('inquiryType').value==='plate';
+  document.getElementById('inquiryPlateTypeField').classList.toggle('hidden',!usePlate);
+  document.getElementById('inquiryPlateNumberField').classList.toggle('hidden',!usePlate);
+  document.getElementById('inquiryBaseNumberField').classList.toggle('hidden',usePlate);
+}
+function searchVehicleInspection(){
+  const result=document.getElementById('inquiryResult');
+  const usePlate=document.getElementById('inquiryType').value==='plate';
+  const plate=[...document.querySelectorAll('#inquiryPlateNumberField input')].map(input=>input.value.trim()).join('');
+  const baseNumber=document.getElementById('inquiryBaseNumber').value.trim();
+  if((usePlate&&plate.length!==7)||(!usePlate&&!baseNumber)){
+    result.textContent=usePlate?'أكمل إدخال حروف وأرقام اللوحة للبحث.':'أدخل الرقم الأساسي للبحث.';
+    result.className='inquiry-result error';
+    result.classList.remove('hidden');
+    return;
+  }
+  result.textContent='لم يتم العثور على معلومات بناءً على معايير البحث التي أدخلتها. الاستعلام في هذا النموذج تجريبي ولا يتصل بقاعدة بيانات الفحص الدوري.';
+  result.className='inquiry-result';
+  result.classList.remove('hidden');
+}
+function resetVehicleInspectionSearch(){
+  document.getElementById('inquiryType').value='plate';
+  document.getElementById('inquiryPlateType').selectedIndex=0;
+  document.querySelectorAll('#inquiryPlateNumberField input').forEach(input=>input.value='');
+  document.getElementById('inquiryBaseNumber').value='';
+  const result=document.getElementById('inquiryResult');
+  result.textContent='';
+  result.className='inquiry-result hidden';
+  toggleInquiryFields();
+}
+function returnToTransaction(event){
+  if(event) event.preventDefault();
+  document.querySelector('.header-steps').style.display='';
+  document.querySelectorAll('.side-nav .sub-link,.side-nav .nav-heading').forEach(link=>link.classList.remove('selected'));
+  document.querySelector('.side-nav a[href="#page1"]').classList.add('selected');
+  setOwnershipMenuExpanded(true);
+  showPage(currentPage);
+}
+function startNewTransaction(){
+  currentUploadedContract=null;
+  currentUploadedContractName='';
+  clearSavedContractUpload();
+  if(contractPreviewObjectUrl){URL.revokeObjectURL(contractPreviewObjectUrl);contractPreviewObjectUrl='';}
+  document.querySelectorAll('#page1 input,#page2 input,#page3 input,#page4 input,#page5 input').forEach(input=>{
+    if(input.type==='checkbox') input.checked=false;
+    else input.value='';
+  });
+  document.querySelectorAll('#page1 select,#page2 select,#page3 select,#page4 select').forEach(select=>select.selectedIndex=0);
+  document.querySelectorAll('#page1 textarea,#page2 textarea,#page3 textarea,#page4 textarea').forEach(textarea=>textarea.value='');
+  document.getElementById('contractPreview').classList.add('hidden');
+  document.getElementById('contractPreview').removeAttribute('src');
+  document.getElementById('contractPdfPreview').classList.add('hidden');
+  document.getElementById('contractPdfPreview').removeAttribute('src');
+  document.getElementById('contractFileName').textContent='';
+  document.getElementById('contractFileName').classList.add('hidden');
+  updateContractSummary();
+  document.getElementById('sellerBirthWrap').classList.toggle('hidden',document.getElementById('sellerType').value==='company');
+  updateBuyerVerificationLabel();
+  returnToTransaction();
+  currentPage=1;
+  showPage(1);
+}
+function updateContractSummary(){
+  document.getElementById('contractSummaryValue').textContent=document.getElementById('vehicleValue').value||'غير محددة';
+  document.getElementById('contractSummaryWords').textContent=document.getElementById('saleAmountWords').value||'غير محدد';
+}
+function openContractUploadDatabase(){
+  return new Promise((resolve,reject)=>{
+    if(!('indexedDB' in window)){reject(new Error('التخزين المحلي للملفات غير متاح في هذا المتصفح.'));return;}
+    const request=indexedDB.open('tamContractUploadStore',1);
+    request.onupgradeneeded=()=>{
+      if(!request.result.objectStoreNames.contains('uploads')) request.result.createObjectStore('uploads',{keyPath:'id'});
+    };
+    request.onsuccess=()=>resolve(request.result);
+    request.onerror=()=>reject(request.error||new Error('تعذر فتح مخزن العقد.'));
+  });
+}
+async function saveUploadedContract(file){
+  const database=await openContractUploadDatabase();
+  return new Promise((resolve,reject)=>{
+    const transaction=database.transaction('uploads','readwrite');
+    transaction.objectStore('uploads').put({id:'current-draft',name:file.name,type:file.type,lastModified:file.lastModified,blob:file});
+    transaction.oncomplete=()=>{database.close();resolve();};
+    transaction.onerror=()=>{database.close();reject(transaction.error||new Error('تعذر حفظ ملف العقد.'));};
+    transaction.onabort=()=>{database.close();reject(transaction.error||new Error('تم إلغاء حفظ ملف العقد.'));};
+  });
+}
+async function getSavedContractUpload(){
+  const database=await openContractUploadDatabase();
+  return new Promise((resolve,reject)=>{
+    const transaction=database.transaction('uploads','readonly');
+    const request=transaction.objectStore('uploads').get('current-draft');
+    request.onsuccess=()=>resolve(request.result||null);
+    request.onerror=()=>reject(request.error||new Error('تعذر قراءة ملف العقد المحفوظ.'));
+    transaction.oncomplete=()=>database.close();
+    transaction.onerror=()=>{database.close();reject(transaction.error||new Error('تعذر قراءة ملف العقد المحفوظ.'));};
+  });
+}
+async function clearSavedContractUpload(){
+  try{
+    const database=await openContractUploadDatabase();
+    await new Promise((resolve,reject)=>{
+      const transaction=database.transaction('uploads','readwrite');
+      transaction.objectStore('uploads').delete('current-draft');
+      transaction.oncomplete=resolve;
+      transaction.onerror=()=>reject(transaction.error||new Error('تعذر حذف ملف العقد.'));
+      transaction.onabort=()=>reject(transaction.error||new Error('تم إلغاء حذف ملف العقد.'));
+    });
+    database.close();
+  }catch(error){console.warn('تعذر حذف نسخة العقد المحفوظة.',error);}
+}
+function showUploadedContract(file,name='',wasRestored=false){
+  const preview=document.getElementById('contractPreview');
+  const pdfPreview=document.getElementById('contractPdfPreview');
+  const fileName=document.getElementById('contractFileName');
+  if(contractPreviewObjectUrl){URL.revokeObjectURL(contractPreviewObjectUrl);contractPreviewObjectUrl='';}
+  preview.classList.add('hidden');
+  preview.removeAttribute('src');
+  pdfPreview.classList.add('hidden');
+  pdfPreview.removeAttribute('src');
+  if(!file){fileName.textContent='';fileName.classList.add('hidden');return;}
+  name=name||file.name||'العقد';
+  contractPreviewObjectUrl=URL.createObjectURL(file);
+  fileName.textContent=`${wasRestored?'الملف المحفوظ':'الملف المختار'}: ${name} (${(file.size/1024/1024).toFixed(2)} MB)${wasRestored?' — محفوظ على هذا المتصفح':''}`;
+  fileName.classList.remove('hidden');
+  const isImage=file.type.startsWith('image/')||/\.(png|jpe?g|gif|webp|bmp)$/i.test(name);
+  const isPdf=file.type==='application/pdf'||/\.pdf$/i.test(name);
+  if(isImage){
+    preview.src=contractPreviewObjectUrl;
+    preview.classList.remove('hidden');
+  }else if(isPdf){
+    pdfPreview.src=contractPreviewObjectUrl;
+    pdfPreview.classList.remove('hidden');
+  }
+}
+async function restoreUploadedContract(){
+  try{
+    const saved=await getSavedContractUpload();
+    if(!saved?.blob)return;
+    currentUploadedContract=saved.blob;
+    currentUploadedContractName=saved.name;
+    showUploadedContract(saved.blob,saved.name,true);
+  }catch(error){console.warn('تعذر استعادة ملف العقد المحفوظ.',error);}
+}
+async function previewContractImage(event){
+  const file=event.target.files[0];
+  currentUploadedContract=file||null;
+  currentUploadedContractName=file?.name||'';
+  if(!file){showUploadedContract(null);return;}
+  showUploadedContract(file);
+  try{
+    await saveUploadedContract(file);
+    showUploadedContract(file,file.name,true);
+  }catch(error){
+    const fileName=document.getElementById('contractFileName');
+    fileName.textContent=`تعذر حفظ ${file.name} بعد إغلاق الصفحة؛ يمكنك تنزيله الآن من زر «تنزيل العقد».`;
+    console.error('تعذر حفظ ملف العقد في التخزين المحلي.',error);
+  }
+}
+function downloadBlob(blob,fileName){
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  link.href=url;
+  link.download=fileName;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function downloadContract(operation=null){
+  if(!operation){
+    let uploaded=currentUploadedContract;
+    let uploadedName=currentUploadedContractName||document.getElementById('contractImage').files[0]?.name||'';
+    if(!uploaded){
+      try{
+        const saved=await getSavedContractUpload();
+        if(saved){uploaded=saved.blob;uploadedName=saved.name;}
+      }catch(error){console.error('تعذر قراءة ملف العقد المحفوظ.',error);}
+    }
+    if(uploaded){
+      const safeName=(uploadedName||'العقد').replace(/[\\/:*?"<>|]/g,'_');
+      downloadBlob(uploaded,safeName);
+      return;
+    }
+  }
+  const escapeHtml=value=>String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const plate=operation?.plate||[...document.querySelectorAll('.plate-box input')].map(input=>input.value).join('')||'غير مدخل';
+  const contractNo=escapeHtml(operation?.contractNo||document.getElementById('contractNo').value||'غير محدد');
+  const vehicleValue=escapeHtml(operation?.vehicleValue||document.getElementById('vehicleValue').value||'غير محددة');
+  const saleAmountWords=escapeHtml(operation?.saleAmountWords||document.getElementById('saleAmountWords').value||'غير محدد');
+  const seller=escapeHtml(operation?.seller||document.getElementById('sellerId').value||'غير محدد');
+  const buyer=escapeHtml(operation?.buyer||document.getElementById('buyerId').value||'غير محدد');
+  const date=operation?.createdAt?new Date(operation.createdAt):new Date();
+  const contract=`<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>العقد ${contractNo}</title><body style="font-family:Tahoma,Arial,sans-serif;max-width:800px;margin:50px auto;line-height:2"><h1>عقد نقل ملكية مركبة</h1><p>رقم العقد: ${contractNo}</p><p>الغرض من نقل الملكية: مبايعة</p><p>قيمة المركبة: ${vehicleValue}</p><p>مبلغ المبايعة كتابة: ${saleAmountWords}</p><p>رقم اللوحة: ${escapeHtml(plate)}</p><p>هوية البائع: ${seller}</p><p>هوية المشتري: ${buyer}</p><p>تاريخ الإصدار: ${date.toLocaleDateString('ar-SA')}</p><hr><p>توقيع البائع: ____________________</p><p>توقيع المشتري: ____________________</p></body></html>`;
+  downloadBlob(new Blob([contract],{type:'text/html;charset=utf-8'}),`عقد-نقل-ملكية-${contractNo}.html`);
+}
+document.getElementById('vehicleValue').addEventListener('input',updateContractSummary);
+document.getElementById('saleAmountWords').addEventListener('input',updateContractSummary);
+function handleSegmentedBackspace(event){
+  const input=event.target;
+  if(!(input instanceof HTMLInputElement)) return;
+  if(event.key!=='Backspace'&&event.key!=='Delete') return;
+  const fields=[...input.parentElement.querySelectorAll('input')];
+  const index=fields.indexOf(input);
+  if(input.value && index>=0){
+    input.value='';
+    event.preventDefault();
+    return;
+  }
+  if(index>0){
+    const previous=fields[index-1];
+    previous.value='';
+    previous.focus();
+    previous.select();
+    event.preventDefault();
+  }
+}
+function moveCodeNext(el){
+  el.value=el.value.replace(/[٠-٩۰-۹]/g,d=>String.fromCharCode(d.charCodeAt(0)-(d>='٠'&&d<='٩'?0x0660:0x06f0)+48)).replace(/\D/g,'').slice(-1);
+  if(el.value.length===1){
+    const box=el.parentElement;
+    const inputs=[...box.querySelectorAll('input')];
+    const i=inputs.indexOf(el);
+    if(i+1<inputs.length) inputs[i+1].focus();
+  }
+}
+function moveNext(el){
+  if(!el.value) return;
+  const inputs=[...el.closest('.plate-box').querySelectorAll('input')];
+  const nextInput=inputs[inputs.indexOf(el)+1];
+  if(nextInput) nextInput.focus();
+}
+function moveInquiryPlateNext(el){
+  if(!el.value) return;
+  const inputs=[...el.closest('.inquiry-plate').querySelectorAll('input')];
+  const nextInput=inputs[inputs.indexOf(el)+1];
+  if(nextInput) nextInput.focus();
+}
+function attachSegmentedInputBehavior(){
+  document.querySelectorAll('.plate-box input, .inquiry-plate input, .code-boxes input, .buyer-license-box input').forEach(input=>{
+    input.removeEventListener('keydown',handleSegmentedBackspace);
+    input.addEventListener('keydown',handleSegmentedBackspace);
+  });
+}
+function normalizeIdentity(el){
+  el.value=el.value.replace(/[٠-٩۰-۹]/g,d=>String.fromCharCode(d.charCodeAt(0)-(d>='٠'&&d<='٩'?0x0660:0x06f0)+48)).replace(/\D/g,'').slice(0,10);
+}
+function normalizeMobile(el){
+  el.value=el.value.replace(/[٠-٩۰-۹]/g,d=>String.fromCharCode(d.charCodeAt(0)-(d>='٠'&&d<='٩'?0x0660:0x06f0)+48)).replace(/\D/g,'');
+  el.setCustomValidity(el.value&&!el.value.startsWith('5')?'يجب أن يبدأ رقم الجوال بالرقم 5':'');
+}
+function toggleSeller(){
+  const type=document.getElementById('sellerType').value;
+  document.getElementById('sellerBirthWrap').classList.toggle('hidden',type==='company');
+  document.getElementById('sellerIqama').classList.add('hidden');
+}
+function updateBuyerVerificationLabel(){
+  const method=document.getElementById('buyerVerificationMethod').value;
+  const label=document.getElementById('buyerVerificationLabel');
+  const license=method==='license';
+  label.textContent='رقم الإقامة';
+  document.getElementById('buyerVerificationSingleField').classList.toggle('hidden',license);
+  document.getElementById('buyerLicenseField').classList.toggle('hidden',!license);
+}
+function moveBuyerLicenseNext(input){
+  input.value=input.value.replace(/[٠-٩۰-۹]/g,d=>String.fromCharCode(d.charCodeAt(0)-(d>='٠'&&d<='٩'?0x0660:0x06f0)+48)).replace(/\D/g,'').slice(-1);
+  if(!input.value) return;
+  const fields=[...document.querySelectorAll('.buyer-license-box input')];
+  const next=fields[fields.indexOf(input)+1];
+  if(next) next.focus();
+}
+toggleSeller();updateBuyerVerificationLabel();
+attachSegmentedInputBehavior();
+const siteSidebar=document.getElementById('siteSidebar');
+const menuToggle=document.getElementById('menuToggle');
+const sidebarBackdrop=document.getElementById('sidebarBackdrop');
+function setSidebarOpen(open){
+  siteSidebar.classList.toggle('sidebar-visible',open);
+  sidebarBackdrop.classList.toggle('visible',open);
+  siteSidebar.setAttribute('aria-hidden',String(!open));
+  sidebarBackdrop.setAttribute('aria-hidden',String(!open));
+  menuToggle.setAttribute('aria-expanded',String(open));
+  menuToggle.setAttribute('aria-label',open?'إغلاق القائمة الجانبية':'فتح القائمة الجانبية');
+  document.body.style.overflow=open?'hidden':'';
+  if(open) siteSidebar.querySelector('a')?.focus();
+  else menuToggle.focus({preventScroll:true});
+}
+menuToggle.addEventListener('click',()=>setSidebarOpen(menuToggle.getAttribute('aria-expanded')!=='true'));
+sidebarBackdrop.addEventListener('click',()=>setSidebarOpen(false));
+siteSidebar.addEventListener('click',event=>{
+  if(event.target.closest('.account-sidebar-actions button')){
+    if(menuToggle.getAttribute('aria-expanded')==='true') setSidebarOpen(false);
+    return;
+  }
+  const link=event.target.closest('a');
+  if(!link) return;
+  if(link.matches('.ownership-menu-toggle')) return;
+  if(link.matches('a[href="#operationsHistory"]')) openOperationsHistory(event);
+  setSidebarOpen(false);
+});
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&menuToggle.getAttribute('aria-expanded')==='true') setSidebarOpen(false);
+});
+function syncSidebarViewport(){
+  const desktop=window.matchMedia('(min-width: 801px)').matches;
+  if(desktop){
+    siteSidebar.classList.remove('sidebar-visible');
+    sidebarBackdrop.classList.remove('visible');
+    siteSidebar.setAttribute('aria-hidden','false');
+    sidebarBackdrop.setAttribute('aria-hidden','true');
+    menuToggle.setAttribute('aria-expanded','false');
+    document.body.style.overflow='';
+  }else{
+    siteSidebar.setAttribute('aria-hidden',String(menuToggle.getAttribute('aria-expanded')!=='true'));
+  }
+}
+window.addEventListener('resize',syncSidebarViewport);
+syncSidebarViewport();
+refreshAccountSidebar();
+setLandingLanguage(localStorage.getItem('tamDemoLanguage')==='en'?'en':'ar');
+restoreCurrentView();
+</script>
+</body>
+</html>
